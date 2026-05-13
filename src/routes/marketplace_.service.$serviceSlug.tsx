@@ -4,7 +4,7 @@ import { listMarketplaceOffers } from "@/lib/offers.functions";
 import { OfferCard, type MarketplaceOfferLike } from "@/components/marketplace/OfferCard";
 import { MVP_NOTICE, NON_AFFILIATION_NOTICE } from "@/components/marketplace/serviceVisuals";
 
-export const Route = createFileRoute("/marketplace/service/$serviceSlug")({
+export const Route = createFileRoute("/marketplace_/service/$serviceSlug")({
   loader: async ({ params }) => {
     const { offers } = await listMarketplaceOffers();
     const filtered = (offers as MarketplaceOfferLike[]).filter(
