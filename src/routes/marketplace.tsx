@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { listMarketplaceOffers } from "@/lib/offers.functions";
 import type { MarketplaceOfferLike } from "@/components/marketplace/OfferCard";
 import { ServiceCard, type ServiceAggregate } from "@/components/marketplace/ServiceCard";
