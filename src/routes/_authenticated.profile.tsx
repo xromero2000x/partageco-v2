@@ -1,11 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState, type FormEvent } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { updateMyProfile } from "@/lib/profile.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+
+const PROFILE_ERROR_MAP: Record<string, string> = {
+  display_name_too_short: "Le nom d'affichage doit contenir au moins 2 caractères.",
+  display_name_too_long: "Le nom d'affichage ne peut pas dépasser 80 caractères.",
+  update_failed: "Impossible d'enregistrer la modification.",
+};
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
@@ -14,6 +21,7 @@ export const Route = createFileRoute("/_authenticated/profile")({
 
 function ProfilePage() {
   const { appUser, profile, refresh } = useAuth();
+  const save = useServerFn(updateMyProfile);
   const [displayName, setDisplayName] = useState(profile?.display_name ?? "");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,22 +30,17 @@ function ProfilePage() {
     e.preventDefault();
     setError(null);
     if (!appUser) return;
-    if (displayName.trim().length < 2) {
-      setError("Le nom d'affichage doit contenir au moins 2 caractères.");
-      return;
-    }
     setSubmitting(true);
-    const { error: err } = await supabase
-      .from("user_profiles")
-      .update({ display_name: displayName.trim(), updated_at: new Date().toISOString() })
-      .eq("user_id", appUser.id);
-    setSubmitting(false);
-    if (err) {
-      setError("Impossible d'enregistrer la modification.");
-      return;
+    try {
+      await save({ data: { display_name: displayName } });
+      await refresh();
+      toast.success("Profil mis à jour.");
+    } catch (e) {
+      const code = e instanceof Error ? e.message : "update_failed";
+      setError(PROFILE_ERROR_MAP[code] ?? "Impossible d'enregistrer la modification.");
+    } finally {
+      setSubmitting(false);
     }
-    await refresh();
-    toast.success("Profil mis à jour.");
   };
 
   return (
@@ -100,11 +103,17 @@ function ProfilePage() {
       </section>
 
       <section className="mt-6 rounded-lg border border-border p-6">
-        <h2 className="text-base font-medium">Suppression de compte</h2>
+        <h2 className="text-base font-medium">Sécurité et suppression</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          La demande de suppression de compte (RGPD) sera disponible dans une
-          prochaine étape du développement, conformément au cycle validé :
-          demande, revue administrateur, complétion ou rejet justifié.
+          Les demandes liées à la sécurité et à la suppression du compte sont disponibles dans l'espace Sécurité.
+        </p>
+        <p className="mt-3">
+          <Link
+            to="/securite"
+            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+          >
+            Accéder à Sécurité →
+          </Link>
         </p>
       </section>
     </div>

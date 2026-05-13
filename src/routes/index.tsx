@@ -1,9 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { ArrowRight, ShieldCheck, Users, MessagesSquare } from "lucide-react";
+import { listMarketplaceOffers } from "@/lib/offers.functions";
+import { ServiceCard, type ServiceAggregate } from "@/components/marketplace/ServiceCard";
+import { DISPLAY_CATEGORIES, NON_AFFILIATION_NOTICE } from "@/components/marketplace/serviceVisuals";
+import type { MarketplaceOfferLike } from "@/components/marketplace/OfferCard";
+
+type OfferWithCreated = MarketplaceOfferLike & { created_at?: string };
 
 export const Route = createFileRoute("/")({
+  loader: () => listMarketplaceOffers(),
   component: LandingPage,
   head: () => ({
     meta: [
@@ -17,12 +25,49 @@ export const Route = createFileRoute("/")({
   }),
 });
 
+function aggregateByService(offers: OfferWithCreated[]): Map<string, ServiceAggregate> {
+  const map = new Map<string, ServiceAggregate>();
+  for (const o of offers) {
+    if (!o.service_slug) continue;
+    const price = Number(o.monthly_price_amount);
+    const existing = map.get(o.service_slug);
+    if (existing) {
+      existing.offersCount += 1;
+      existing.totalSlots += o.available_slots;
+      if (price < existing.minPrice) existing.minPrice = price;
+    } else {
+      map.set(o.service_slug, {
+        slug: o.service_slug,
+        name: o.service_name ?? o.service_slug,
+        categoryName: o.category_name ?? undefined,
+        offersCount: 1,
+        totalSlots: o.available_slots,
+        minPrice: price,
+        currency: o.currency,
+      });
+    }
+  }
+  return map;
+}
+
 function LandingPage() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const { offers } = Route.useLoaderData() as { offers: OfferWithCreated[] };
+
+  const carouselServices = useMemo(() => {
+    const aggregates = aggregateByService(offers);
+    const ordered: ServiceAggregate[] = [];
+    for (const cat of DISPLAY_CATEGORIES) {
+      for (const slug of cat.serviceSlugs) {
+        const agg = aggregates.get(slug);
+        if (agg) ordered.push({ ...agg, categoryName: agg.categoryName ?? cat.name });
+      }
+    }
+    return ordered;
+  }, [offers]);
 
   return (
     <div className="relative min-h-screen overflow-hidden text-foreground">
-
 
       {/* Hero */}
       <main>
@@ -88,6 +133,49 @@ function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Carrousel des services */}
+        {carouselServices.length > 0 && (
+          <section
+            aria-labelledby="services-carousel-heading"
+            className="border-t border-border/60 bg-muted/20 py-16"
+          >
+            <div className="mx-auto max-w-6xl px-6">
+              <div className="mb-8 text-center">
+                <h2
+                  id="services-carousel-heading"
+                  className="font-display text-2xl font-medium sm:text-3xl"
+                >
+                  Les services les plus partagés
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Explorez les abonnements proposés par les membres PartageCo.
+                </p>
+              </div>
+
+              <div
+                role="list"
+                aria-label="Services disponibles sur PartageCo"
+                className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-none"
+                tabIndex={0}
+              >
+                {carouselServices.map((service) => (
+                  <div
+                    key={service.slug}
+                    role="listitem"
+                    className="w-64 flex-none snap-start sm:w-72"
+                  >
+                    <ServiceCard service={service} />
+                  </div>
+                ))}
+              </div>
+
+              <p className="mt-5 text-xs text-muted-foreground">
+                {NON_AFFILIATION_NOTICE}
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* Comment ça marche */}
         <section

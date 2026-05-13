@@ -72,7 +72,9 @@ export function OfferCard({ offer }: { offer: MarketplaceOfferLike }) {
         {offer.description && (
           <p className="line-clamp-2 text-xs text-muted-foreground">{offer.description}</p>
         )}
-        <p className="text-[11px] text-muted-foreground">Proposé par un membre PartageCo</p>
+        <p className="text-[11px] text-muted-foreground">
+          Proposé par un membre · demande soumise à validation
+        </p>
 
         <div className="mt-auto flex items-end justify-between gap-3">
           <div>
@@ -90,6 +92,10 @@ export function OfferCard({ offer }: { offer: MarketplaceOfferLike }) {
             {slots} place{slots > 1 ? "s" : ""}
           </span>
         </div>
+
+        <span className="mt-2 inline-flex w-fit items-center rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition group-hover:border-primary group-hover:text-primary">
+          Voir l'offre →
+        </span>
       </div>
     </Link>
   );

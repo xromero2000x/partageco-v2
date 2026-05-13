@@ -19,8 +19,8 @@ import { toast } from "sonner";
 
 const PARTICIPATION_LABEL: Record<string, string> = {
   requested: "Demandée",
-  accepted_pending_payment: "Acceptée — préparation en cours",
-  active: "Active",
+  accepted_pending_payment: "Acceptée — paiement en attente",
+  active: "Participation active",
   cancelled: "Annulée",
   rejected: "Refusée",
   expired: "Expirée",
@@ -164,9 +164,9 @@ function ManageOfferPage() {
       </section>
 
       <section className="mt-10">
-        <h2 className="text-lg font-medium">Demandes de participation</h2>
+        <h2 className="text-lg font-medium">Demandes reçues</h2>
         {requestsQuery.isLoading && (
-          <p className="mt-3 text-sm text-muted-foreground">Chargement…</p>
+          <p className="mt-3 text-sm text-muted-foreground">Chargement des demandes…</p>
         )}
         {requestsQuery.error && (
           <p role="alert" className="mt-3 text-sm text-destructive">
@@ -175,7 +175,7 @@ function ManageOfferPage() {
         )}
         {requestsQuery.data && requestsQuery.data.requests.length === 0 && (
           <p className="mt-3 text-sm text-muted-foreground">
-            Aucune demande pour l'instant.
+            Aucune demande reçue pour le moment.
           </p>
         )}
         {requestsQuery.data && requestsQuery.data.requests.length > 0 && (
@@ -212,6 +212,7 @@ function ManageOfferPage() {
                         try {
                           await accept({ data: { coSubId: r.id } });
                           toast.success("Demande acceptée.");
+                          await qc.invalidateQueries({ queryKey: ["my-offers"] });
                           await requestsQuery.refetch();
                           await refetch();
                         } catch (e) {
@@ -234,6 +235,7 @@ function ManageOfferPage() {
                         try {
                           await reject({ data: { coSubId: r.id } });
                           toast.success("Demande rejetée.");
+                          await qc.invalidateQueries({ queryKey: ["my-offers"] });
                           await requestsQuery.refetch();
                           await refetch();
                         } catch (e) {
@@ -248,8 +250,7 @@ function ManageOfferPage() {
                     </Button>
                   </div>
                 )}
-                {(r.participation_status === "accepted_pending_payment" ||
-                  r.participation_status === "active") && (
+                {r.participation_status === "active" && (
                   <Button
                     size="sm"
                     variant="outline"

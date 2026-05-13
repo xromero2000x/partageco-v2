@@ -233,8 +233,16 @@ function PublicOfferPage() {
     <div className="min-h-screen bg-background">
 
       <main className="mx-auto max-w-3xl px-6 py-10">
+        <Link
+          to="/marketplace/service/$serviceSlug"
+          params={{ serviceSlug: offer.service_slug ?? "" }}
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          ← {offer.service_name ?? "Offres"}
+        </Link>
+
         {/* Visual generated in Phase 14B — generic illustration, never an official logo. */}
-        <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-muted">
+        <div className="relative mt-6 mb-8 aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-muted">
           {visual ? (
             <img
               src={visual}

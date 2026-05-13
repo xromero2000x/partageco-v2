@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/useAuth";
 import { listMarketplaceOffers } from "@/lib/offers.functions";
 import type { MarketplaceOfferLike } from "@/components/marketplace/OfferCard";
 import { ServiceCard, type ServiceAggregate } from "@/components/marketplace/ServiceCard";
@@ -39,6 +40,7 @@ function aggregateByService(offers: OfferWithCreated[]): Map<string, ServiceAggr
       map.set(o.service_slug, {
         slug: o.service_slug,
         name: o.service_name ?? o.service_slug,
+        categoryName: o.category_name ?? undefined,
         offersCount: 1,
         totalSlots: o.available_slots,
         minPrice: price,
@@ -51,6 +53,7 @@ function aggregateByService(offers: OfferWithCreated[]): Map<string, ServiceAggr
 
 function MarketplacePage() {
   const { offers } = Route.useLoaderData() as { offers: OfferWithCreated[] };
+  const { isAuthenticated } = useAuth();
   const aggregates = aggregateByService(offers);
 
   const sections = DISPLAY_CATEGORIES.map((cat) => {
@@ -60,14 +63,18 @@ function MarketplacePage() {
     return { ...cat, services };
   }).filter((s) => s.services.length > 0);
 
+  const isEmpty = sections.length === 0;
+
   return (
     <div className="min-h-screen bg-background">
-
       <main className="mx-auto max-w-6xl px-6 py-10">
-        <h1 className="text-3xl font-semibold tracking-tight">Marketplace</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Choisissez une catégorie, puis un service pour voir les offres de partage proposées
-          par les membres.
+
+        {/* Hero */}
+        <h1 className="text-3xl font-semibold tracking-tight">
+          Trouver une place dans un abonnement partagé
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          Choisissez un service, comparez les offres disponibles, puis demandez à rejoindre un abonnement partagé.
         </p>
 
         <div
@@ -76,26 +83,53 @@ function MarketplacePage() {
         >
           <strong className="font-medium text-foreground">{MVP_NOTICE}</strong>
         </div>
-
         <p className="mt-3 text-xs text-muted-foreground">{NON_AFFILIATION_NOTICE}</p>
 
-        {offers.length === 0 || sections.length === 0 ? (
-          <section className="mt-10 rounded-lg border border-dashed border-border p-10 text-center">
+        {isEmpty ? (
+          <section
+            className="mt-10 rounded-lg border border-dashed border-border p-10 text-center"
+            aria-label="Aucune offre disponible"
+          >
             <h2 className="text-base font-medium">Aucune offre disponible pour le moment.</h2>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Aucune offre fictive n'est ajoutée à des fins de démonstration.
+            <p className="mt-2 text-sm text-muted-foreground">
+              Revenez plus tard ou créez votre propre offre si vous souhaitez partager un abonnement.
             </p>
+            <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              {isAuthenticated ? (
+                <Link
+                  to="/mes-offres/nouvelle"
+                  className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >
+                  Créer une offre
+                </Link>
+              ) : (
+                <Link
+                  to="/signup"
+                  className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >
+                  Créer un compte
+                </Link>
+              )}
+            </div>
           </section>
         ) : (
           <div className="mt-10 space-y-14">
             {sections.map((section) => (
-              <section key={section.key}>
-                <h2 className="text-xl font-semibold tracking-tight">{section.name}</h2>
+              <section key={section.key} aria-labelledby={`cat-${section.key}`}>
+                <h2
+                  id={`cat-${section.key}`}
+                  className="text-xl font-semibold tracking-tight"
+                >
+                  {section.name}
+                </h2>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {section.services.length} service
                   {section.services.length > 1 ? "s" : ""} avec offres disponibles
                 </p>
-                <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <ul
+                  className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+                  role="list"
+                >
                   {section.services.map((s) => (
                     <li key={s.slug}>
                       <ServiceCard service={s} />
@@ -106,6 +140,7 @@ function MarketplacePage() {
             ))}
           </div>
         )}
+
       </main>
     </div>
   );

@@ -43,31 +43,44 @@ function DashboardPage() {
         </div>
       )}
 
-      <section className="grid gap-4 sm:grid-cols-2">
-        <article className="rounded-lg border border-border p-6">
-          <h2 className="text-base font-medium">Mes offres</h2>
+      <nav aria-label="Accès rapide" className="grid gap-4 sm:grid-cols-2">
+        <Link
+          to="/marketplace"
+          className="group rounded-lg border border-border p-6 transition hover:border-primary/50"
+        >
+          <h2 className="text-base font-medium group-hover:text-primary">Marketplace</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Vous n'avez encore publié aucune offre.
+            Parcourez les offres de partage disponibles par service.
           </p>
-          <p className="mt-4 text-xs text-muted-foreground">
-            La création d'offres sera disponible dans les prochaines étapes du
-            développement.
-          </p>
-        </article>
-        <article className="rounded-lg border border-border p-6">
-          <h2 className="text-base font-medium">Mes participations</h2>
+        </Link>
+        <Link
+          to="/mes-offres/nouvelle"
+          className="group rounded-lg border border-border p-6 transition hover:border-primary/50"
+        >
+          <h2 className="text-base font-medium group-hover:text-primary">Créer une offre</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Vous ne participez à aucune offre pour le moment.
+            Proposez un abonnement à partager. L'offre sera examinée avant publication.
           </p>
-          <p className="mt-4 text-xs text-muted-foreground">
-            Découvrez les offres disponibles dans{" "}
-            <Link to="/marketplace" className="underline">
-              la marketplace
-            </Link>
-            .
+        </Link>
+        <Link
+          to="/mes-offres"
+          className="group rounded-lg border border-border p-6 transition hover:border-primary/50"
+        >
+          <h2 className="text-base font-medium group-hover:text-primary">Mes offres</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Gérez vos offres publiées, en modération ou en brouillon.
           </p>
-        </article>
-      </section>
+        </Link>
+        <Link
+          to="/mes-participations"
+          className="group rounded-lg border border-border p-6 transition hover:border-primary/50"
+        >
+          <h2 className="text-base font-medium group-hover:text-primary">Mes participations</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Suivez les abonnements auxquels vous participez.
+          </p>
+        </Link>
+      </nav>
 
       <p className="mt-10 text-xs text-muted-foreground">
         Statut du compte : {appUser?.account_status}

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_authenticated/mes-participations")({
 
 const STATUS_LABEL: Record<string, string> = {
   requested: "Demandée",
-  accepted_pending_payment: "Acceptée — préparation en cours",
+  accepted_pending_payment: "Acceptée",
   active: "Active",
   cancelled: "Annulée",
   rejected: "Refusée",

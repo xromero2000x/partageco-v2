@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep -l \"createServerFn\\\\|server action\\\\|createServerFn\\\\|\\\\.server\\\\.\")",
+      "Bash(xargs -0 grep -l \"createServerFn\")",
+      "mcp__a93f1838-1a2c-41c0-a66f-11c30cb6bb0d__list_projects",
+      "mcp__a93f1838-1a2c-41c0-a66f-11c30cb6bb0d__execute_sql",
+      "mcp__a93f1838-1a2c-41c0-a66f-11c30cb6bb0d__apply_migration",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Sébastien\\\\Desktop\\\\link-your-spend-main\\\\link-your-spend-main\" -Recurse -Filter \"*.tsx\" -Name)",
+      "Bash(Select-Object -First 30)"
+    ]
+  }
+}

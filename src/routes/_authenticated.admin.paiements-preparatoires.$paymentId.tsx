@@ -17,15 +17,15 @@ export const Route = createFileRoute("/_authenticated/admin/paiements-preparatoi
 });
 
 const PAYMENT_LABEL: Record<string, string> = {
-  pending: "En attente de simulation MVP",
-  simulated: "Confirmé en simulation MVP",
+  pending: "En attente de validation",
+  simulated: "Validé en mode test",
   failed: "Échec simulé",
   cancelled: "Annulé",
 };
 
 const PARTICIPATION_LABEL: Record<string, string> = {
   requested: "Demandée",
-  accepted_pending_payment: "Acceptée — préparation en cours",
+  accepted_pending_payment: "Acceptée",
   active: "Active",
   cancelled: "Annulée",
   rejected: "Refusée",
@@ -184,22 +184,24 @@ function AdminPaymentDetailPage() {
       {canAct && (
         <section className="mt-6 rounded-lg border border-border p-6 text-sm">
           <h2 className="text-base font-medium">Actions super_admin</h2>
-          <p className="mt-1 text-xs italic text-muted-foreground">
-            Simulation MVP — aucun paiement réel n'est exécuté.
+          <p className="mt-2 text-sm text-muted-foreground">
+            Cette action simule une validation de paiement. Aucun argent réel n'est débité ou reversé.
           </p>
-          <p className="text-xs text-muted-foreground">Cette action sera journalisée.</p>
+          <p className="mt-1 text-xs italic text-muted-foreground">
+            Toutes les actions sont journalisées.
+          </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Button
               disabled={busy}
               onClick={() =>
                 onAction(
                   simulate,
-                  "Confirmer sans paiement réel ? Cette action sera journalisée. Simulation MVP — aucun paiement réel n'est exécuté.",
-                  "Élément confirmé en simulation MVP."
+                  "Valider en mode test ? La participation sera activée et la messagerie ouverte entre propriétaire et co-abonné. Cette action simule une validation de paiement — aucun argent réel n'est débité. Cette action sera journalisée.",
+                  "Participation activée en mode test."
                 )
               }
             >
-              confirmer sans paiement réel
+              Valider en mode test
             </Button>
             <Button
               variant="outline"
@@ -207,12 +209,12 @@ function AdminPaymentDetailPage() {
               onClick={() =>
                 onAction(
                   fail,
-                  "Marquer comme échec simulé ? Cette action sera journalisée. Simulation MVP — aucun paiement réel n'est exécuté.",
-                  "Élément marqué en échec simulé."
+                  "Simuler un échec de paiement ? La participation restera en attente. Aucun argent réel n'est impliqué. Cette action sera journalisée.",
+                  "Échec de paiement simulé."
                 )
               }
             >
-              marquer comme échec simulé
+              Simuler un échec
             </Button>
             <Button
               variant="destructive"
@@ -220,12 +222,12 @@ function AdminPaymentDetailPage() {
               onClick={() =>
                 onAction(
                   cancel,
-                  "Annuler cet élément préparatoire ? Cette action sera journalisée. Simulation MVP — aucun paiement réel n'est exécuté.",
+                  "Annuler cet élément préparatoire ? La participation associée sera annulée. Cette action sera journalisée.",
                   "Élément annulé."
                 )
               }
             >
-              annuler
+              Annuler
             </Button>
           </div>
         </section>

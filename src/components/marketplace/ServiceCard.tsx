@@ -4,6 +4,7 @@ import { getServiceVisual } from "./serviceVisuals";
 export interface ServiceAggregate {
   slug: string;
   name: string;
+  categoryName?: string;
   offersCount: number;
   totalSlots: number;
   minPrice: number;
@@ -49,7 +50,12 @@ export function ServiceCard({ service }: { service: ServiceAggregate }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
-        <h3 className="text-base font-semibold text-foreground">{service.name}</h3>
+        <div>
+          <h3 className="text-base font-semibold text-foreground">{service.name}</h3>
+          {service.categoryName && (
+            <p className="mt-0.5 text-xs text-muted-foreground">{service.categoryName}</p>
+          )}
+        </div>
 
         <ul className="space-y-1 text-sm text-muted-foreground">
           <li>

@@ -9,10 +9,10 @@ import youtubePremium from "@/assets/services/youtube_premium.jpg";
 
 const VISUALS: Record<string, string> = {
   netflix,
-  disney_plus: disneyPlus,
+  "disney-plus": disneyPlus,
   crunchyroll,
   spotify,
-  youtube_premium: youtubePremium,
+  "youtube-premium": youtubePremium,
 };
 
 export function getServiceVisual(slug: string | null | undefined): string | null {
@@ -20,19 +20,6 @@ export function getServiceVisual(slug: string | null | undefined): string | null
   return VISUALS[slug] ?? null;
 }
 
-// Ordre d'affichage prioritaire des sections marketplace.
-export const SERVICE_DISPLAY_ORDER = [
-  "netflix",
-  "disney_plus",
-  "crunchyroll",
-  "spotify",
-  "youtube_premium",
-];
-
-// Regroupement UX d'affichage des services par "rayon" marketplace.
-// Ce regroupement est purement frontend : il ne modifie pas les
-// `subscription_categories` en base. YouTube Premium est rattaché
-// techniquement à `streaming_video` mais affiché ici sous "Musique".
 export type DisplayCategoryKey = "video" | "music";
 
 export const DISPLAY_CATEGORIES: {
@@ -43,12 +30,12 @@ export const DISPLAY_CATEGORIES: {
   {
     key: "video",
     name: "Film & vidéo",
-    serviceSlugs: ["netflix", "crunchyroll", "disney_plus"],
+    serviceSlugs: ["netflix", "disney-plus", "crunchyroll"],
   },
   {
     key: "music",
     name: "Musique",
-    serviceSlugs: ["spotify", "youtube_premium"],
+    serviceSlugs: ["spotify", "youtube-premium", "deezer", "apple-music"],
   },
 ];
 

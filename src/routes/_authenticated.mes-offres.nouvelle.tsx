@@ -9,6 +9,19 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
+const OFFER_ERROR_MAP: Record<string, string> = {
+  service_not_available: "Ce service n'est pas disponible.",
+  category_not_available: "Cette catégorie n'est pas disponible.",
+  service_category_mismatch: "Le service sélectionné ne correspond pas à la catégorie choisie.",
+  service_plan_required: "Veuillez sélectionner une gamme d'abonnement.",
+  service_plan_not_available: "Cette gamme d'abonnement n'est pas disponible.",
+  service_plan_service_mismatch: "La gamme sélectionnée ne correspond pas au service choisi.",
+  account_not_active: "Votre compte doit être actif pour créer une offre.",
+  email_not_verified: "Votre email doit être vérifié pour créer une offre.",
+  create_failed: "La création de l'offre a échoué.",
+  generic_error: "Une erreur est survenue.",
+};
+
 export const Route = createFileRoute("/_authenticated/mes-offres/nouvelle")({
   component: NewOfferPage,
   head: () => ({ meta: [{ title: "Nouvelle offre — PartageCo" }] }),
@@ -60,7 +73,8 @@ function NewOfferPage() {
       toast.success("Offre créée en brouillon.");
       navigate({ to: "/mes-offres/$offerId", params: { offerId: res.id } });
     } catch (e) {
-      setErr(e instanceof Error ? e.message : "Erreur inconnue");
+      const code = e instanceof Error ? e.message : "generic_error";
+      setErr(OFFER_ERROR_MAP[code] ?? "Une erreur est survenue.");
     } finally {
       setBusy(false);
     }
