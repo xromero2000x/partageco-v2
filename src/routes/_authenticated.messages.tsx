@@ -60,7 +60,6 @@ function MessagesListPage() {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                    {c.conversation_type === "offer_context" && "Contexte offre"}
                     {c.conversation_type === "participation_context" && "Contexte participation"}
                     {c.conversation_type === "dispute_context" && "Contexte litige"}
                   </span>
