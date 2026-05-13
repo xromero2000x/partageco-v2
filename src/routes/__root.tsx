@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import heroNeon from "@/assets/hero-neon-heart.jpg";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Toaster } from "@/components/ui/sonner";
+import { SiteHeader } from "@/components/site-header";
 
 function NotFoundComponent() {
   return (
