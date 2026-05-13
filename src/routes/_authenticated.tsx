@@ -1,34 +1,9 @@
-import {
-  createFileRoute,
-  Outlet,
-  Link,
-  useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Menu } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { BackButton } from "@/components/back-button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
 
-const NAV_ITEMS = [
-  { to: "/dashboard" as const, label: "Tableau de bord" },
-  { to: "/marketplace" as const, label: "Marketplace" },
-  { to: "/mes-offres" as const, label: "Mes offres" },
-  { to: "/mes-participations" as const, label: "Mes participations" },
-  { to: "/messages" as const, label: "Messages" },
-  { to: "/litiges" as const, label: "Litiges" },
-  { to: "/notifications" as const, label: "Notifications" },
-  { to: "/profile" as const, label: "Profil" },
-  { to: "/securite" as const, label: "Sécurité" },
-];
+
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
