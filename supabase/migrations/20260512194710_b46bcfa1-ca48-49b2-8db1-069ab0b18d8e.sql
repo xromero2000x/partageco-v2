@@ -1,0 +1,1 @@
+ALTER TABLE public.subscription_services ADD COLUMN IF NOT EXISTS description text;

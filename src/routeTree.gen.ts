@@ -9,38 +9,594 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OffresOfferIdRouteImport } from './routes/offres.$offerId'
+import { Route as MarketplaceOfferIdRouteImport } from './routes/marketplace_.$offerId'
+import { Route as AuthenticatedSecuriteRouteImport } from './routes/_authenticated.securite'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
+import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated.messages'
+import { Route as AuthenticatedMesParticipationsRouteImport } from './routes/_authenticated.mes-participations'
+import { Route as AuthenticatedMesOffresRouteImport } from './routes/_authenticated.mes-offres'
+import { Route as AuthenticatedLitigesRouteImport } from './routes/_authenticated.litiges'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
+import { Route as AuthenticatedLitigesIndexRouteImport } from './routes/_authenticated.litiges.index'
+import { Route as MarketplaceServiceServiceSlugRouteImport } from './routes/marketplace.service.$serviceSlug'
+import { Route as AuthenticatedMessagesConversationIdRouteImport } from './routes/_authenticated.messages.$conversationId'
+import { Route as AuthenticatedMesParticipationsCoSubIdRouteImport } from './routes/_authenticated.mes-participations.$coSubId'
+import { Route as AuthenticatedMesOffresNouvelleRouteImport } from './routes/_authenticated.mes-offres.nouvelle'
+import { Route as AuthenticatedMesOffresOfferIdRouteImport } from './routes/_authenticated.mes-offres.$offerId'
+import { Route as AuthenticatedLitigesNouveauRouteImport } from './routes/_authenticated.litiges.nouveau'
+import { Route as AuthenticatedLitigesDisputeIdRouteImport } from './routes/_authenticated.litiges.$disputeId'
+import { Route as AuthenticatedAdminSuppressionsRouteImport } from './routes/_authenticated.admin.suppressions'
+import { Route as AuthenticatedAdminParticipationsRouteImport } from './routes/_authenticated.admin.participations'
+import { Route as AuthenticatedAdminPaiementsPreparatoiresRouteImport } from './routes/_authenticated.admin.paiements-preparatoires'
+import { Route as AuthenticatedAdminOffresRouteImport } from './routes/_authenticated.admin.offres'
+import { Route as AuthenticatedAdminLitigesRouteImport } from './routes/_authenticated.admin.litiges'
+import { Route as AuthenticatedAdminConversationsRouteImport } from './routes/_authenticated.admin.conversations'
+import { Route as AuthenticatedAdminCategoriesServicesRouteImport } from './routes/_authenticated.admin.categories-services'
+import { Route as AuthenticatedAdminSuppressionsIndexRouteImport } from './routes/_authenticated.admin.suppressions.index'
+import { Route as AuthenticatedAdminLitigesIndexRouteImport } from './routes/_authenticated.admin.litiges.index'
+import { Route as AuthenticatedMesOffresOfferIdEditionRouteImport } from './routes/_authenticated.mes-offres.$offerId.edition'
+import { Route as AuthenticatedAdminSuppressionsDeletionRequestIdRouteImport } from './routes/_authenticated.admin.suppressions.$deletionRequestId'
+import { Route as AuthenticatedAdminPaiementsPreparatoiresPaymentIdRouteImport } from './routes/_authenticated.admin.paiements-preparatoires.$paymentId'
+import { Route as AuthenticatedAdminOffresOfferIdRouteImport } from './routes/_authenticated.admin.offres.$offerId'
+import { Route as AuthenticatedAdminLitigesDisputeIdRouteImport } from './routes/_authenticated.admin.litiges.$disputeId'
+import { Route as AuthenticatedAdminConversationsConversationIdRouteImport } from './routes/_authenticated.admin.conversations.$conversationId'
 
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OffresOfferIdRoute = OffresOfferIdRouteImport.update({
+  id: '/offres/$offerId',
+  path: '/offres/$offerId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceOfferIdRoute = MarketplaceOfferIdRouteImport.update({
+  id: '/marketplace_/$offerId',
+  path: '/marketplace/$offerId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedSecuriteRoute = AuthenticatedSecuriteRouteImport.update({
+  id: '/securite',
+  path: '/securite',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMesParticipationsRoute =
+  AuthenticatedMesParticipationsRouteImport.update({
+    id: '/mes-participations',
+    path: '/mes-participations',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMesOffresRoute = AuthenticatedMesOffresRouteImport.update({
+  id: '/mes-offres',
+  path: '/mes-offres',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedLitigesRoute = AuthenticatedLitigesRouteImport.update({
+  id: '/litiges',
+  path: '/litiges',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedLitigesIndexRoute =
+  AuthenticatedLitigesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedLitigesRoute,
+  } as any)
+const MarketplaceServiceServiceSlugRoute =
+  MarketplaceServiceServiceSlugRouteImport.update({
+    id: '/service/$serviceSlug',
+    path: '/service/$serviceSlug',
+    getParentRoute: () => MarketplaceRoute,
+  } as any)
+const AuthenticatedMessagesConversationIdRoute =
+  AuthenticatedMessagesConversationIdRouteImport.update({
+    id: '/$conversationId',
+    path: '/$conversationId',
+    getParentRoute: () => AuthenticatedMessagesRoute,
+  } as any)
+const AuthenticatedMesParticipationsCoSubIdRoute =
+  AuthenticatedMesParticipationsCoSubIdRouteImport.update({
+    id: '/$coSubId',
+    path: '/$coSubId',
+    getParentRoute: () => AuthenticatedMesParticipationsRoute,
+  } as any)
+const AuthenticatedMesOffresNouvelleRoute =
+  AuthenticatedMesOffresNouvelleRouteImport.update({
+    id: '/nouvelle',
+    path: '/nouvelle',
+    getParentRoute: () => AuthenticatedMesOffresRoute,
+  } as any)
+const AuthenticatedMesOffresOfferIdRoute =
+  AuthenticatedMesOffresOfferIdRouteImport.update({
+    id: '/$offerId',
+    path: '/$offerId',
+    getParentRoute: () => AuthenticatedMesOffresRoute,
+  } as any)
+const AuthenticatedLitigesNouveauRoute =
+  AuthenticatedLitigesNouveauRouteImport.update({
+    id: '/nouveau',
+    path: '/nouveau',
+    getParentRoute: () => AuthenticatedLitigesRoute,
+  } as any)
+const AuthenticatedLitigesDisputeIdRoute =
+  AuthenticatedLitigesDisputeIdRouteImport.update({
+    id: '/$disputeId',
+    path: '/$disputeId',
+    getParentRoute: () => AuthenticatedLitigesRoute,
+  } as any)
+const AuthenticatedAdminSuppressionsRoute =
+  AuthenticatedAdminSuppressionsRouteImport.update({
+    id: '/admin/suppressions',
+    path: '/admin/suppressions',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminParticipationsRoute =
+  AuthenticatedAdminParticipationsRouteImport.update({
+    id: '/admin/participations',
+    path: '/admin/participations',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminPaiementsPreparatoiresRoute =
+  AuthenticatedAdminPaiementsPreparatoiresRouteImport.update({
+    id: '/admin/paiements-preparatoires',
+    path: '/admin/paiements-preparatoires',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminOffresRoute =
+  AuthenticatedAdminOffresRouteImport.update({
+    id: '/admin/offres',
+    path: '/admin/offres',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminLitigesRoute =
+  AuthenticatedAdminLitigesRouteImport.update({
+    id: '/admin/litiges',
+    path: '/admin/litiges',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminConversationsRoute =
+  AuthenticatedAdminConversationsRouteImport.update({
+    id: '/admin/conversations',
+    path: '/admin/conversations',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminCategoriesServicesRoute =
+  AuthenticatedAdminCategoriesServicesRouteImport.update({
+    id: '/admin/categories-services',
+    path: '/admin/categories-services',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminSuppressionsIndexRoute =
+  AuthenticatedAdminSuppressionsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminSuppressionsRoute,
+  } as any)
+const AuthenticatedAdminLitigesIndexRoute =
+  AuthenticatedAdminLitigesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminLitigesRoute,
+  } as any)
+const AuthenticatedMesOffresOfferIdEditionRoute =
+  AuthenticatedMesOffresOfferIdEditionRouteImport.update({
+    id: '/edition',
+    path: '/edition',
+    getParentRoute: () => AuthenticatedMesOffresOfferIdRoute,
+  } as any)
+const AuthenticatedAdminSuppressionsDeletionRequestIdRoute =
+  AuthenticatedAdminSuppressionsDeletionRequestIdRouteImport.update({
+    id: '/$deletionRequestId',
+    path: '/$deletionRequestId',
+    getParentRoute: () => AuthenticatedAdminSuppressionsRoute,
+  } as any)
+const AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute =
+  AuthenticatedAdminPaiementsPreparatoiresPaymentIdRouteImport.update({
+    id: '/$paymentId',
+    path: '/$paymentId',
+    getParentRoute: () => AuthenticatedAdminPaiementsPreparatoiresRoute,
+  } as any)
+const AuthenticatedAdminOffresOfferIdRoute =
+  AuthenticatedAdminOffresOfferIdRouteImport.update({
+    id: '/$offerId',
+    path: '/$offerId',
+    getParentRoute: () => AuthenticatedAdminOffresRoute,
+  } as any)
+const AuthenticatedAdminLitigesDisputeIdRoute =
+  AuthenticatedAdminLitigesDisputeIdRouteImport.update({
+    id: '/$disputeId',
+    path: '/$disputeId',
+    getParentRoute: () => AuthenticatedAdminLitigesRoute,
+  } as any)
+const AuthenticatedAdminConversationsConversationIdRoute =
+  AuthenticatedAdminConversationsConversationIdRouteImport.update({
+    id: '/$conversationId',
+    path: '/$conversationId',
+    getParentRoute: () => AuthenticatedAdminConversationsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/litiges': typeof AuthenticatedLitigesRouteWithChildren
+  '/mes-offres': typeof AuthenticatedMesOffresRouteWithChildren
+  '/mes-participations': typeof AuthenticatedMesParticipationsRouteWithChildren
+  '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/securite': typeof AuthenticatedSecuriteRoute
+  '/marketplace/$offerId': typeof MarketplaceOfferIdRoute
+  '/offres/$offerId': typeof OffresOfferIdRoute
+  '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
+  '/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
+  '/admin/litiges': typeof AuthenticatedAdminLitigesRouteWithChildren
+  '/admin/offres': typeof AuthenticatedAdminOffresRouteWithChildren
+  '/admin/paiements-preparatoires': typeof AuthenticatedAdminPaiementsPreparatoiresRouteWithChildren
+  '/admin/participations': typeof AuthenticatedAdminParticipationsRoute
+  '/admin/suppressions': typeof AuthenticatedAdminSuppressionsRouteWithChildren
+  '/litiges/$disputeId': typeof AuthenticatedLitigesDisputeIdRoute
+  '/litiges/nouveau': typeof AuthenticatedLitigesNouveauRoute
+  '/mes-offres/$offerId': typeof AuthenticatedMesOffresOfferIdRouteWithChildren
+  '/mes-offres/nouvelle': typeof AuthenticatedMesOffresNouvelleRoute
+  '/mes-participations/$coSubId': typeof AuthenticatedMesParticipationsCoSubIdRoute
+  '/messages/$conversationId': typeof AuthenticatedMessagesConversationIdRoute
+  '/marketplace/service/$serviceSlug': typeof MarketplaceServiceServiceSlugRoute
+  '/litiges/': typeof AuthenticatedLitigesIndexRoute
+  '/admin/conversations/$conversationId': typeof AuthenticatedAdminConversationsConversationIdRoute
+  '/admin/litiges/$disputeId': typeof AuthenticatedAdminLitigesDisputeIdRoute
+  '/admin/offres/$offerId': typeof AuthenticatedAdminOffresOfferIdRoute
+  '/admin/paiements-preparatoires/$paymentId': typeof AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute
+  '/admin/suppressions/$deletionRequestId': typeof AuthenticatedAdminSuppressionsDeletionRequestIdRoute
+  '/mes-offres/$offerId/edition': typeof AuthenticatedMesOffresOfferIdEditionRoute
+  '/admin/litiges/': typeof AuthenticatedAdminLitigesIndexRoute
+  '/admin/suppressions/': typeof AuthenticatedAdminSuppressionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/mes-offres': typeof AuthenticatedMesOffresRouteWithChildren
+  '/mes-participations': typeof AuthenticatedMesParticipationsRouteWithChildren
+  '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/securite': typeof AuthenticatedSecuriteRoute
+  '/marketplace/$offerId': typeof MarketplaceOfferIdRoute
+  '/offres/$offerId': typeof OffresOfferIdRoute
+  '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
+  '/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
+  '/admin/offres': typeof AuthenticatedAdminOffresRouteWithChildren
+  '/admin/paiements-preparatoires': typeof AuthenticatedAdminPaiementsPreparatoiresRouteWithChildren
+  '/admin/participations': typeof AuthenticatedAdminParticipationsRoute
+  '/litiges/$disputeId': typeof AuthenticatedLitigesDisputeIdRoute
+  '/litiges/nouveau': typeof AuthenticatedLitigesNouveauRoute
+  '/mes-offres/$offerId': typeof AuthenticatedMesOffresOfferIdRouteWithChildren
+  '/mes-offres/nouvelle': typeof AuthenticatedMesOffresNouvelleRoute
+  '/mes-participations/$coSubId': typeof AuthenticatedMesParticipationsCoSubIdRoute
+  '/messages/$conversationId': typeof AuthenticatedMessagesConversationIdRoute
+  '/marketplace/service/$serviceSlug': typeof MarketplaceServiceServiceSlugRoute
+  '/litiges': typeof AuthenticatedLitigesIndexRoute
+  '/admin/conversations/$conversationId': typeof AuthenticatedAdminConversationsConversationIdRoute
+  '/admin/litiges/$disputeId': typeof AuthenticatedAdminLitigesDisputeIdRoute
+  '/admin/offres/$offerId': typeof AuthenticatedAdminOffresOfferIdRoute
+  '/admin/paiements-preparatoires/$paymentId': typeof AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute
+  '/admin/suppressions/$deletionRequestId': typeof AuthenticatedAdminSuppressionsDeletionRequestIdRoute
+  '/mes-offres/$offerId/edition': typeof AuthenticatedMesOffresOfferIdEditionRoute
+  '/admin/litiges': typeof AuthenticatedAdminLitigesIndexRoute
+  '/admin/suppressions': typeof AuthenticatedAdminSuppressionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/litiges': typeof AuthenticatedLitigesRouteWithChildren
+  '/_authenticated/mes-offres': typeof AuthenticatedMesOffresRouteWithChildren
+  '/_authenticated/mes-participations': typeof AuthenticatedMesParticipationsRouteWithChildren
+  '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/securite': typeof AuthenticatedSecuriteRoute
+  '/marketplace_/$offerId': typeof MarketplaceOfferIdRoute
+  '/offres/$offerId': typeof OffresOfferIdRoute
+  '/_authenticated/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
+  '/_authenticated/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
+  '/_authenticated/admin/litiges': typeof AuthenticatedAdminLitigesRouteWithChildren
+  '/_authenticated/admin/offres': typeof AuthenticatedAdminOffresRouteWithChildren
+  '/_authenticated/admin/paiements-preparatoires': typeof AuthenticatedAdminPaiementsPreparatoiresRouteWithChildren
+  '/_authenticated/admin/participations': typeof AuthenticatedAdminParticipationsRoute
+  '/_authenticated/admin/suppressions': typeof AuthenticatedAdminSuppressionsRouteWithChildren
+  '/_authenticated/litiges/$disputeId': typeof AuthenticatedLitigesDisputeIdRoute
+  '/_authenticated/litiges/nouveau': typeof AuthenticatedLitigesNouveauRoute
+  '/_authenticated/mes-offres/$offerId': typeof AuthenticatedMesOffresOfferIdRouteWithChildren
+  '/_authenticated/mes-offres/nouvelle': typeof AuthenticatedMesOffresNouvelleRoute
+  '/_authenticated/mes-participations/$coSubId': typeof AuthenticatedMesParticipationsCoSubIdRoute
+  '/_authenticated/messages/$conversationId': typeof AuthenticatedMessagesConversationIdRoute
+  '/marketplace/service/$serviceSlug': typeof MarketplaceServiceServiceSlugRoute
+  '/_authenticated/litiges/': typeof AuthenticatedLitigesIndexRoute
+  '/_authenticated/admin/conversations/$conversationId': typeof AuthenticatedAdminConversationsConversationIdRoute
+  '/_authenticated/admin/litiges/$disputeId': typeof AuthenticatedAdminLitigesDisputeIdRoute
+  '/_authenticated/admin/offres/$offerId': typeof AuthenticatedAdminOffresOfferIdRoute
+  '/_authenticated/admin/paiements-preparatoires/$paymentId': typeof AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute
+  '/_authenticated/admin/suppressions/$deletionRequestId': typeof AuthenticatedAdminSuppressionsDeletionRequestIdRoute
+  '/_authenticated/mes-offres/$offerId/edition': typeof AuthenticatedMesOffresOfferIdEditionRoute
+  '/_authenticated/admin/litiges/': typeof AuthenticatedAdminLitigesIndexRoute
+  '/_authenticated/admin/suppressions/': typeof AuthenticatedAdminSuppressionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/marketplace'
+    | '/reset-password'
+    | '/signup'
+    | '/verify-email'
+    | '/dashboard'
+    | '/litiges'
+    | '/mes-offres'
+    | '/mes-participations'
+    | '/messages'
+    | '/notifications'
+    | '/profile'
+    | '/securite'
+    | '/marketplace/$offerId'
+    | '/offres/$offerId'
+    | '/admin/categories-services'
+    | '/admin/conversations'
+    | '/admin/litiges'
+    | '/admin/offres'
+    | '/admin/paiements-preparatoires'
+    | '/admin/participations'
+    | '/admin/suppressions'
+    | '/litiges/$disputeId'
+    | '/litiges/nouveau'
+    | '/mes-offres/$offerId'
+    | '/mes-offres/nouvelle'
+    | '/mes-participations/$coSubId'
+    | '/messages/$conversationId'
+    | '/marketplace/service/$serviceSlug'
+    | '/litiges/'
+    | '/admin/conversations/$conversationId'
+    | '/admin/litiges/$disputeId'
+    | '/admin/offres/$offerId'
+    | '/admin/paiements-preparatoires/$paymentId'
+    | '/admin/suppressions/$deletionRequestId'
+    | '/mes-offres/$offerId/edition'
+    | '/admin/litiges/'
+    | '/admin/suppressions/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/marketplace'
+    | '/reset-password'
+    | '/signup'
+    | '/verify-email'
+    | '/dashboard'
+    | '/mes-offres'
+    | '/mes-participations'
+    | '/messages'
+    | '/notifications'
+    | '/profile'
+    | '/securite'
+    | '/marketplace/$offerId'
+    | '/offres/$offerId'
+    | '/admin/categories-services'
+    | '/admin/conversations'
+    | '/admin/offres'
+    | '/admin/paiements-preparatoires'
+    | '/admin/participations'
+    | '/litiges/$disputeId'
+    | '/litiges/nouveau'
+    | '/mes-offres/$offerId'
+    | '/mes-offres/nouvelle'
+    | '/mes-participations/$coSubId'
+    | '/messages/$conversationId'
+    | '/marketplace/service/$serviceSlug'
+    | '/litiges'
+    | '/admin/conversations/$conversationId'
+    | '/admin/litiges/$disputeId'
+    | '/admin/offres/$offerId'
+    | '/admin/paiements-preparatoires/$paymentId'
+    | '/admin/suppressions/$deletionRequestId'
+    | '/mes-offres/$offerId/edition'
+    | '/admin/litiges'
+    | '/admin/suppressions'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/forgot-password'
+    | '/login'
+    | '/marketplace'
+    | '/reset-password'
+    | '/signup'
+    | '/verify-email'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/litiges'
+    | '/_authenticated/mes-offres'
+    | '/_authenticated/mes-participations'
+    | '/_authenticated/messages'
+    | '/_authenticated/notifications'
+    | '/_authenticated/profile'
+    | '/_authenticated/securite'
+    | '/marketplace_/$offerId'
+    | '/offres/$offerId'
+    | '/_authenticated/admin/categories-services'
+    | '/_authenticated/admin/conversations'
+    | '/_authenticated/admin/litiges'
+    | '/_authenticated/admin/offres'
+    | '/_authenticated/admin/paiements-preparatoires'
+    | '/_authenticated/admin/participations'
+    | '/_authenticated/admin/suppressions'
+    | '/_authenticated/litiges/$disputeId'
+    | '/_authenticated/litiges/nouveau'
+    | '/_authenticated/mes-offres/$offerId'
+    | '/_authenticated/mes-offres/nouvelle'
+    | '/_authenticated/mes-participations/$coSubId'
+    | '/_authenticated/messages/$conversationId'
+    | '/marketplace/service/$serviceSlug'
+    | '/_authenticated/litiges/'
+    | '/_authenticated/admin/conversations/$conversationId'
+    | '/_authenticated/admin/litiges/$disputeId'
+    | '/_authenticated/admin/offres/$offerId'
+    | '/_authenticated/admin/paiements-preparatoires/$paymentId'
+    | '/_authenticated/admin/suppressions/$deletionRequestId'
+    | '/_authenticated/mes-offres/$offerId/edition'
+    | '/_authenticated/admin/litiges/'
+    | '/_authenticated/admin/suppressions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  MarketplaceRoute: typeof MarketplaceRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SignupRoute: typeof SignupRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
+  MarketplaceOfferIdRoute: typeof MarketplaceOfferIdRoute
+  OffresOfferIdRoute: typeof OffresOfferIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +604,464 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/offres/$offerId': {
+      id: '/offres/$offerId'
+      path: '/offres/$offerId'
+      fullPath: '/offres/$offerId'
+      preLoaderRoute: typeof OffresOfferIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace_/$offerId': {
+      id: '/marketplace_/$offerId'
+      path: '/marketplace/$offerId'
+      fullPath: '/marketplace/$offerId'
+      preLoaderRoute: typeof MarketplaceOfferIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/securite': {
+      id: '/_authenticated/securite'
+      path: '/securite'
+      fullPath: '/securite'
+      preLoaderRoute: typeof AuthenticatedSecuriteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/messages': {
+      id: '/_authenticated/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AuthenticatedMessagesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/mes-participations': {
+      id: '/_authenticated/mes-participations'
+      path: '/mes-participations'
+      fullPath: '/mes-participations'
+      preLoaderRoute: typeof AuthenticatedMesParticipationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/mes-offres': {
+      id: '/_authenticated/mes-offres'
+      path: '/mes-offres'
+      fullPath: '/mes-offres'
+      preLoaderRoute: typeof AuthenticatedMesOffresRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/litiges': {
+      id: '/_authenticated/litiges'
+      path: '/litiges'
+      fullPath: '/litiges'
+      preLoaderRoute: typeof AuthenticatedLitigesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/litiges/': {
+      id: '/_authenticated/litiges/'
+      path: '/'
+      fullPath: '/litiges/'
+      preLoaderRoute: typeof AuthenticatedLitigesIndexRouteImport
+      parentRoute: typeof AuthenticatedLitigesRoute
+    }
+    '/marketplace/service/$serviceSlug': {
+      id: '/marketplace/service/$serviceSlug'
+      path: '/service/$serviceSlug'
+      fullPath: '/marketplace/service/$serviceSlug'
+      preLoaderRoute: typeof MarketplaceServiceServiceSlugRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/_authenticated/messages/$conversationId': {
+      id: '/_authenticated/messages/$conversationId'
+      path: '/$conversationId'
+      fullPath: '/messages/$conversationId'
+      preLoaderRoute: typeof AuthenticatedMessagesConversationIdRouteImport
+      parentRoute: typeof AuthenticatedMessagesRoute
+    }
+    '/_authenticated/mes-participations/$coSubId': {
+      id: '/_authenticated/mes-participations/$coSubId'
+      path: '/$coSubId'
+      fullPath: '/mes-participations/$coSubId'
+      preLoaderRoute: typeof AuthenticatedMesParticipationsCoSubIdRouteImport
+      parentRoute: typeof AuthenticatedMesParticipationsRoute
+    }
+    '/_authenticated/mes-offres/nouvelle': {
+      id: '/_authenticated/mes-offres/nouvelle'
+      path: '/nouvelle'
+      fullPath: '/mes-offres/nouvelle'
+      preLoaderRoute: typeof AuthenticatedMesOffresNouvelleRouteImport
+      parentRoute: typeof AuthenticatedMesOffresRoute
+    }
+    '/_authenticated/mes-offres/$offerId': {
+      id: '/_authenticated/mes-offres/$offerId'
+      path: '/$offerId'
+      fullPath: '/mes-offres/$offerId'
+      preLoaderRoute: typeof AuthenticatedMesOffresOfferIdRouteImport
+      parentRoute: typeof AuthenticatedMesOffresRoute
+    }
+    '/_authenticated/litiges/nouveau': {
+      id: '/_authenticated/litiges/nouveau'
+      path: '/nouveau'
+      fullPath: '/litiges/nouveau'
+      preLoaderRoute: typeof AuthenticatedLitigesNouveauRouteImport
+      parentRoute: typeof AuthenticatedLitigesRoute
+    }
+    '/_authenticated/litiges/$disputeId': {
+      id: '/_authenticated/litiges/$disputeId'
+      path: '/$disputeId'
+      fullPath: '/litiges/$disputeId'
+      preLoaderRoute: typeof AuthenticatedLitigesDisputeIdRouteImport
+      parentRoute: typeof AuthenticatedLitigesRoute
+    }
+    '/_authenticated/admin/suppressions': {
+      id: '/_authenticated/admin/suppressions'
+      path: '/admin/suppressions'
+      fullPath: '/admin/suppressions'
+      preLoaderRoute: typeof AuthenticatedAdminSuppressionsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/participations': {
+      id: '/_authenticated/admin/participations'
+      path: '/admin/participations'
+      fullPath: '/admin/participations'
+      preLoaderRoute: typeof AuthenticatedAdminParticipationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/paiements-preparatoires': {
+      id: '/_authenticated/admin/paiements-preparatoires'
+      path: '/admin/paiements-preparatoires'
+      fullPath: '/admin/paiements-preparatoires'
+      preLoaderRoute: typeof AuthenticatedAdminPaiementsPreparatoiresRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/offres': {
+      id: '/_authenticated/admin/offres'
+      path: '/admin/offres'
+      fullPath: '/admin/offres'
+      preLoaderRoute: typeof AuthenticatedAdminOffresRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/litiges': {
+      id: '/_authenticated/admin/litiges'
+      path: '/admin/litiges'
+      fullPath: '/admin/litiges'
+      preLoaderRoute: typeof AuthenticatedAdminLitigesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/conversations': {
+      id: '/_authenticated/admin/conversations'
+      path: '/admin/conversations'
+      fullPath: '/admin/conversations'
+      preLoaderRoute: typeof AuthenticatedAdminConversationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/categories-services': {
+      id: '/_authenticated/admin/categories-services'
+      path: '/admin/categories-services'
+      fullPath: '/admin/categories-services'
+      preLoaderRoute: typeof AuthenticatedAdminCategoriesServicesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/suppressions/': {
+      id: '/_authenticated/admin/suppressions/'
+      path: '/'
+      fullPath: '/admin/suppressions/'
+      preLoaderRoute: typeof AuthenticatedAdminSuppressionsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminSuppressionsRoute
+    }
+    '/_authenticated/admin/litiges/': {
+      id: '/_authenticated/admin/litiges/'
+      path: '/'
+      fullPath: '/admin/litiges/'
+      preLoaderRoute: typeof AuthenticatedAdminLitigesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminLitigesRoute
+    }
+    '/_authenticated/mes-offres/$offerId/edition': {
+      id: '/_authenticated/mes-offres/$offerId/edition'
+      path: '/edition'
+      fullPath: '/mes-offres/$offerId/edition'
+      preLoaderRoute: typeof AuthenticatedMesOffresOfferIdEditionRouteImport
+      parentRoute: typeof AuthenticatedMesOffresOfferIdRoute
+    }
+    '/_authenticated/admin/suppressions/$deletionRequestId': {
+      id: '/_authenticated/admin/suppressions/$deletionRequestId'
+      path: '/$deletionRequestId'
+      fullPath: '/admin/suppressions/$deletionRequestId'
+      preLoaderRoute: typeof AuthenticatedAdminSuppressionsDeletionRequestIdRouteImport
+      parentRoute: typeof AuthenticatedAdminSuppressionsRoute
+    }
+    '/_authenticated/admin/paiements-preparatoires/$paymentId': {
+      id: '/_authenticated/admin/paiements-preparatoires/$paymentId'
+      path: '/$paymentId'
+      fullPath: '/admin/paiements-preparatoires/$paymentId'
+      preLoaderRoute: typeof AuthenticatedAdminPaiementsPreparatoiresPaymentIdRouteImport
+      parentRoute: typeof AuthenticatedAdminPaiementsPreparatoiresRoute
+    }
+    '/_authenticated/admin/offres/$offerId': {
+      id: '/_authenticated/admin/offres/$offerId'
+      path: '/$offerId'
+      fullPath: '/admin/offres/$offerId'
+      preLoaderRoute: typeof AuthenticatedAdminOffresOfferIdRouteImport
+      parentRoute: typeof AuthenticatedAdminOffresRoute
+    }
+    '/_authenticated/admin/litiges/$disputeId': {
+      id: '/_authenticated/admin/litiges/$disputeId'
+      path: '/$disputeId'
+      fullPath: '/admin/litiges/$disputeId'
+      preLoaderRoute: typeof AuthenticatedAdminLitigesDisputeIdRouteImport
+      parentRoute: typeof AuthenticatedAdminLitigesRoute
+    }
+    '/_authenticated/admin/conversations/$conversationId': {
+      id: '/_authenticated/admin/conversations/$conversationId'
+      path: '/$conversationId'
+      fullPath: '/admin/conversations/$conversationId'
+      preLoaderRoute: typeof AuthenticatedAdminConversationsConversationIdRouteImport
+      parentRoute: typeof AuthenticatedAdminConversationsRoute
+    }
   }
 }
 
+interface AuthenticatedLitigesRouteChildren {
+  AuthenticatedLitigesDisputeIdRoute: typeof AuthenticatedLitigesDisputeIdRoute
+  AuthenticatedLitigesNouveauRoute: typeof AuthenticatedLitigesNouveauRoute
+  AuthenticatedLitigesIndexRoute: typeof AuthenticatedLitigesIndexRoute
+}
+
+const AuthenticatedLitigesRouteChildren: AuthenticatedLitigesRouteChildren = {
+  AuthenticatedLitigesDisputeIdRoute: AuthenticatedLitigesDisputeIdRoute,
+  AuthenticatedLitigesNouveauRoute: AuthenticatedLitigesNouveauRoute,
+  AuthenticatedLitigesIndexRoute: AuthenticatedLitigesIndexRoute,
+}
+
+const AuthenticatedLitigesRouteWithChildren =
+  AuthenticatedLitigesRoute._addFileChildren(AuthenticatedLitigesRouteChildren)
+
+interface AuthenticatedMesOffresOfferIdRouteChildren {
+  AuthenticatedMesOffresOfferIdEditionRoute: typeof AuthenticatedMesOffresOfferIdEditionRoute
+}
+
+const AuthenticatedMesOffresOfferIdRouteChildren: AuthenticatedMesOffresOfferIdRouteChildren =
+  {
+    AuthenticatedMesOffresOfferIdEditionRoute:
+      AuthenticatedMesOffresOfferIdEditionRoute,
+  }
+
+const AuthenticatedMesOffresOfferIdRouteWithChildren =
+  AuthenticatedMesOffresOfferIdRoute._addFileChildren(
+    AuthenticatedMesOffresOfferIdRouteChildren,
+  )
+
+interface AuthenticatedMesOffresRouteChildren {
+  AuthenticatedMesOffresOfferIdRoute: typeof AuthenticatedMesOffresOfferIdRouteWithChildren
+  AuthenticatedMesOffresNouvelleRoute: typeof AuthenticatedMesOffresNouvelleRoute
+}
+
+const AuthenticatedMesOffresRouteChildren: AuthenticatedMesOffresRouteChildren =
+  {
+    AuthenticatedMesOffresOfferIdRoute:
+      AuthenticatedMesOffresOfferIdRouteWithChildren,
+    AuthenticatedMesOffresNouvelleRoute: AuthenticatedMesOffresNouvelleRoute,
+  }
+
+const AuthenticatedMesOffresRouteWithChildren =
+  AuthenticatedMesOffresRoute._addFileChildren(
+    AuthenticatedMesOffresRouteChildren,
+  )
+
+interface AuthenticatedMesParticipationsRouteChildren {
+  AuthenticatedMesParticipationsCoSubIdRoute: typeof AuthenticatedMesParticipationsCoSubIdRoute
+}
+
+const AuthenticatedMesParticipationsRouteChildren: AuthenticatedMesParticipationsRouteChildren =
+  {
+    AuthenticatedMesParticipationsCoSubIdRoute:
+      AuthenticatedMesParticipationsCoSubIdRoute,
+  }
+
+const AuthenticatedMesParticipationsRouteWithChildren =
+  AuthenticatedMesParticipationsRoute._addFileChildren(
+    AuthenticatedMesParticipationsRouteChildren,
+  )
+
+interface AuthenticatedMessagesRouteChildren {
+  AuthenticatedMessagesConversationIdRoute: typeof AuthenticatedMessagesConversationIdRoute
+}
+
+const AuthenticatedMessagesRouteChildren: AuthenticatedMessagesRouteChildren = {
+  AuthenticatedMessagesConversationIdRoute:
+    AuthenticatedMessagesConversationIdRoute,
+}
+
+const AuthenticatedMessagesRouteWithChildren =
+  AuthenticatedMessagesRoute._addFileChildren(
+    AuthenticatedMessagesRouteChildren,
+  )
+
+interface AuthenticatedAdminConversationsRouteChildren {
+  AuthenticatedAdminConversationsConversationIdRoute: typeof AuthenticatedAdminConversationsConversationIdRoute
+}
+
+const AuthenticatedAdminConversationsRouteChildren: AuthenticatedAdminConversationsRouteChildren =
+  {
+    AuthenticatedAdminConversationsConversationIdRoute:
+      AuthenticatedAdminConversationsConversationIdRoute,
+  }
+
+const AuthenticatedAdminConversationsRouteWithChildren =
+  AuthenticatedAdminConversationsRoute._addFileChildren(
+    AuthenticatedAdminConversationsRouteChildren,
+  )
+
+interface AuthenticatedAdminLitigesRouteChildren {
+  AuthenticatedAdminLitigesDisputeIdRoute: typeof AuthenticatedAdminLitigesDisputeIdRoute
+  AuthenticatedAdminLitigesIndexRoute: typeof AuthenticatedAdminLitigesIndexRoute
+}
+
+const AuthenticatedAdminLitigesRouteChildren: AuthenticatedAdminLitigesRouteChildren =
+  {
+    AuthenticatedAdminLitigesDisputeIdRoute:
+      AuthenticatedAdminLitigesDisputeIdRoute,
+    AuthenticatedAdminLitigesIndexRoute: AuthenticatedAdminLitigesIndexRoute,
+  }
+
+const AuthenticatedAdminLitigesRouteWithChildren =
+  AuthenticatedAdminLitigesRoute._addFileChildren(
+    AuthenticatedAdminLitigesRouteChildren,
+  )
+
+interface AuthenticatedAdminOffresRouteChildren {
+  AuthenticatedAdminOffresOfferIdRoute: typeof AuthenticatedAdminOffresOfferIdRoute
+}
+
+const AuthenticatedAdminOffresRouteChildren: AuthenticatedAdminOffresRouteChildren =
+  {
+    AuthenticatedAdminOffresOfferIdRoute: AuthenticatedAdminOffresOfferIdRoute,
+  }
+
+const AuthenticatedAdminOffresRouteWithChildren =
+  AuthenticatedAdminOffresRoute._addFileChildren(
+    AuthenticatedAdminOffresRouteChildren,
+  )
+
+interface AuthenticatedAdminPaiementsPreparatoiresRouteChildren {
+  AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute: typeof AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute
+}
+
+const AuthenticatedAdminPaiementsPreparatoiresRouteChildren: AuthenticatedAdminPaiementsPreparatoiresRouteChildren =
+  {
+    AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute:
+      AuthenticatedAdminPaiementsPreparatoiresPaymentIdRoute,
+  }
+
+const AuthenticatedAdminPaiementsPreparatoiresRouteWithChildren =
+  AuthenticatedAdminPaiementsPreparatoiresRoute._addFileChildren(
+    AuthenticatedAdminPaiementsPreparatoiresRouteChildren,
+  )
+
+interface AuthenticatedAdminSuppressionsRouteChildren {
+  AuthenticatedAdminSuppressionsDeletionRequestIdRoute: typeof AuthenticatedAdminSuppressionsDeletionRequestIdRoute
+  AuthenticatedAdminSuppressionsIndexRoute: typeof AuthenticatedAdminSuppressionsIndexRoute
+}
+
+const AuthenticatedAdminSuppressionsRouteChildren: AuthenticatedAdminSuppressionsRouteChildren =
+  {
+    AuthenticatedAdminSuppressionsDeletionRequestIdRoute:
+      AuthenticatedAdminSuppressionsDeletionRequestIdRoute,
+    AuthenticatedAdminSuppressionsIndexRoute:
+      AuthenticatedAdminSuppressionsIndexRoute,
+  }
+
+const AuthenticatedAdminSuppressionsRouteWithChildren =
+  AuthenticatedAdminSuppressionsRoute._addFileChildren(
+    AuthenticatedAdminSuppressionsRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedLitigesRoute: typeof AuthenticatedLitigesRouteWithChildren
+  AuthenticatedMesOffresRoute: typeof AuthenticatedMesOffresRouteWithChildren
+  AuthenticatedMesParticipationsRoute: typeof AuthenticatedMesParticipationsRouteWithChildren
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSecuriteRoute: typeof AuthenticatedSecuriteRoute
+  AuthenticatedAdminCategoriesServicesRoute: typeof AuthenticatedAdminCategoriesServicesRoute
+  AuthenticatedAdminConversationsRoute: typeof AuthenticatedAdminConversationsRouteWithChildren
+  AuthenticatedAdminLitigesRoute: typeof AuthenticatedAdminLitigesRouteWithChildren
+  AuthenticatedAdminOffresRoute: typeof AuthenticatedAdminOffresRouteWithChildren
+  AuthenticatedAdminPaiementsPreparatoiresRoute: typeof AuthenticatedAdminPaiementsPreparatoiresRouteWithChildren
+  AuthenticatedAdminParticipationsRoute: typeof AuthenticatedAdminParticipationsRoute
+  AuthenticatedAdminSuppressionsRoute: typeof AuthenticatedAdminSuppressionsRouteWithChildren
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedLitigesRoute: AuthenticatedLitigesRouteWithChildren,
+  AuthenticatedMesOffresRoute: AuthenticatedMesOffresRouteWithChildren,
+  AuthenticatedMesParticipationsRoute:
+    AuthenticatedMesParticipationsRouteWithChildren,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSecuriteRoute: AuthenticatedSecuriteRoute,
+  AuthenticatedAdminCategoriesServicesRoute:
+    AuthenticatedAdminCategoriesServicesRoute,
+  AuthenticatedAdminConversationsRoute:
+    AuthenticatedAdminConversationsRouteWithChildren,
+  AuthenticatedAdminLitigesRoute: AuthenticatedAdminLitigesRouteWithChildren,
+  AuthenticatedAdminOffresRoute: AuthenticatedAdminOffresRouteWithChildren,
+  AuthenticatedAdminPaiementsPreparatoiresRoute:
+    AuthenticatedAdminPaiementsPreparatoiresRouteWithChildren,
+  AuthenticatedAdminParticipationsRoute: AuthenticatedAdminParticipationsRoute,
+  AuthenticatedAdminSuppressionsRoute:
+    AuthenticatedAdminSuppressionsRouteWithChildren,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
+interface MarketplaceRouteChildren {
+  MarketplaceServiceServiceSlugRoute: typeof MarketplaceServiceServiceSlugRoute
+}
+
+const MarketplaceRouteChildren: MarketplaceRouteChildren = {
+  MarketplaceServiceServiceSlugRoute: MarketplaceServiceServiceSlugRoute,
+}
+
+const MarketplaceRouteWithChildren = MarketplaceRoute._addFileChildren(
+  MarketplaceRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  MarketplaceRoute: MarketplaceRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SignupRoute: SignupRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
+  MarketplaceOfferIdRoute: MarketplaceOfferIdRoute,
+  OffresOfferIdRoute: OffresOfferIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
