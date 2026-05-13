@@ -89,7 +89,11 @@ function ParticipationDetailPage() {
   const canCancel = status === "requested" || status === "accepted_pending_payment" || status === "active";
 
   const onCancel = async () => {
-    if (!confirm("Annuler cette participation ? Cette action sera journalisée.")) return;
+    const msg =
+      status === "active"
+        ? "Mettre fin à cette participation active ? Vous perdrez l'accès à l'offre partagée. Cette action est irréversible et sera journalisée."
+        : "Annuler cette demande de participation ? Cette action sera journalisée.";
+    if (!confirm(msg)) return;
     setBusy(true);
     try {
       await cancel({ data: { coSubId } });
@@ -225,7 +229,7 @@ function ParticipationDetailPage() {
         </Button>
         {canCancel && (
           <Button variant="outline" disabled={busy} onClick={onCancel}>
-            Annuler la participation
+            {status === "active" ? "Mettre fin à la participation" : "Annuler la participation"}
           </Button>
         )}
         <Button variant="ghost" onClick={() => navigate({ to: "/mes-participations" })}>

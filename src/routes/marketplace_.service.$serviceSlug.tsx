@@ -1,18 +1,15 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { listMarketplaceOffers } from "@/lib/offers.functions";
 import { OfferCard, type MarketplaceOfferLike } from "@/components/marketplace/OfferCard";
 import { MVP_NOTICE, NON_AFFILIATION_NOTICE } from "@/components/marketplace/serviceVisuals";
 
-export const Route = createFileRoute("/marketplace/service/$serviceSlug")({
+export const Route = createFileRoute("/marketplace_/service/$serviceSlug")({
   loader: async ({ params }) => {
     const { offers } = await listMarketplaceOffers();
     const filtered = (offers as MarketplaceOfferLike[]).filter(
       (o) => o.service_slug === params.serviceSlug,
     );
-    if (filtered.length === 0 && !offers.some((o: MarketplaceOfferLike) => o.service_slug === params.serviceSlug)) {
-      // Aucune offre — on rend quand même la page avec état vide ; la route n'est pas inconnue.
-    }
     const serviceName = filtered[0]?.service_name ?? params.serviceSlug;
     return { offers: filtered, serviceName, serviceSlug: params.serviceSlug };
   },

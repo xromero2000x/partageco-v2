@@ -18,7 +18,6 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OffresOfferIdRouteImport } from './routes/offres.$offerId'
-import { Route as MarketplaceOfferIdRouteImport } from './routes/marketplace_.$offerId'
 import { Route as AuthenticatedSecuriteRouteImport } from './routes/_authenticated.securite'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
@@ -28,7 +27,7 @@ import { Route as AuthenticatedMesOffresRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLitigesRouteImport } from './routes/_authenticated.litiges'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedLitigesIndexRouteImport } from './routes/_authenticated.litiges.index'
-import { Route as MarketplaceServiceServiceSlugRouteImport } from './routes/marketplace.service.$serviceSlug'
+import { Route as MarketplaceServiceServiceSlugRouteImport } from './routes/marketplace_.service.$serviceSlug'
 import { Route as AuthenticatedMessagesConversationIdRouteImport } from './routes/_authenticated.messages.$conversationId'
 import { Route as AuthenticatedMesParticipationsCoSubIdRouteImport } from './routes/_authenticated.mes-participations.$coSubId'
 import { Route as AuthenticatedMesOffresNouvelleRouteImport } from './routes/_authenticated.mes-offres.nouvelle'
@@ -95,11 +94,6 @@ const OffresOfferIdRoute = OffresOfferIdRouteImport.update({
   path: '/offres/$offerId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MarketplaceOfferIdRoute = MarketplaceOfferIdRouteImport.update({
-  id: '/marketplace_/$offerId',
-  path: '/marketplace/$offerId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedSecuriteRoute = AuthenticatedSecuriteRouteImport.update({
   id: '/securite',
   path: '/securite',
@@ -150,9 +144,9 @@ const AuthenticatedLitigesIndexRoute =
   } as any)
 const MarketplaceServiceServiceSlugRoute =
   MarketplaceServiceServiceSlugRouteImport.update({
-    id: '/service/$serviceSlug',
-    path: '/service/$serviceSlug',
-    getParentRoute: () => MarketplaceRoute,
+    id: '/marketplace_/service/$serviceSlug',
+    path: '/marketplace/service/$serviceSlug',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const AuthenticatedMessagesConversationIdRoute =
   AuthenticatedMessagesConversationIdRouteImport.update({
@@ -285,7 +279,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
-  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -297,7 +291,6 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/securite': typeof AuthenticatedSecuriteRoute
-  '/marketplace/$offerId': typeof MarketplaceOfferIdRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
   '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
   '/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
@@ -327,7 +320,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
-  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -338,7 +331,6 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/securite': typeof AuthenticatedSecuriteRoute
-  '/marketplace/$offerId': typeof MarketplaceOfferIdRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
   '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
   '/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
@@ -368,7 +360,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
-  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -380,7 +372,6 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/securite': typeof AuthenticatedSecuriteRoute
-  '/marketplace_/$offerId': typeof MarketplaceOfferIdRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
   '/_authenticated/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
   '/_authenticated/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
@@ -395,7 +386,7 @@ export interface FileRoutesById {
   '/_authenticated/mes-offres/nouvelle': typeof AuthenticatedMesOffresNouvelleRoute
   '/_authenticated/mes-participations/$coSubId': typeof AuthenticatedMesParticipationsCoSubIdRoute
   '/_authenticated/messages/$conversationId': typeof AuthenticatedMessagesConversationIdRoute
-  '/marketplace/service/$serviceSlug': typeof MarketplaceServiceServiceSlugRoute
+  '/marketplace_/service/$serviceSlug': typeof MarketplaceServiceServiceSlugRoute
   '/_authenticated/litiges/': typeof AuthenticatedLitigesIndexRoute
   '/_authenticated/admin/conversations/$conversationId': typeof AuthenticatedAdminConversationsConversationIdRoute
   '/_authenticated/admin/litiges/$disputeId': typeof AuthenticatedAdminLitigesDisputeIdRoute
@@ -424,7 +415,6 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/securite'
-    | '/marketplace/$offerId'
     | '/offres/$offerId'
     | '/admin/categories-services'
     | '/admin/conversations'
@@ -465,7 +455,6 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/securite'
-    | '/marketplace/$offerId'
     | '/offres/$offerId'
     | '/admin/categories-services'
     | '/admin/conversations'
@@ -506,7 +495,6 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/profile'
     | '/_authenticated/securite'
-    | '/marketplace_/$offerId'
     | '/offres/$offerId'
     | '/_authenticated/admin/categories-services'
     | '/_authenticated/admin/conversations'
@@ -521,7 +509,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mes-offres/nouvelle'
     | '/_authenticated/mes-participations/$coSubId'
     | '/_authenticated/messages/$conversationId'
-    | '/marketplace/service/$serviceSlug'
+    | '/marketplace_/service/$serviceSlug'
     | '/_authenticated/litiges/'
     | '/_authenticated/admin/conversations/$conversationId'
     | '/_authenticated/admin/litiges/$disputeId'
@@ -538,12 +526,12 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
-  MarketplaceRoute: typeof MarketplaceRouteWithChildren
+  MarketplaceRoute: typeof MarketplaceRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
-  MarketplaceOfferIdRoute: typeof MarketplaceOfferIdRoute
   OffresOfferIdRoute: typeof OffresOfferIdRoute
+  MarketplaceServiceServiceSlugRoute: typeof MarketplaceServiceServiceSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -611,13 +599,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OffresOfferIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/marketplace_/$offerId': {
-      id: '/marketplace_/$offerId'
-      path: '/marketplace/$offerId'
-      fullPath: '/marketplace/$offerId'
-      preLoaderRoute: typeof MarketplaceOfferIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated/securite': {
       id: '/_authenticated/securite'
       path: '/securite'
@@ -681,12 +662,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLitigesIndexRouteImport
       parentRoute: typeof AuthenticatedLitigesRoute
     }
-    '/marketplace/service/$serviceSlug': {
-      id: '/marketplace/service/$serviceSlug'
-      path: '/service/$serviceSlug'
+    '/marketplace_/service/$serviceSlug': {
+      id: '/marketplace_/service/$serviceSlug'
+      path: '/marketplace/service/$serviceSlug'
       fullPath: '/marketplace/service/$serviceSlug'
       preLoaderRoute: typeof MarketplaceServiceServiceSlugRouteImport
-      parentRoute: typeof MarketplaceRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/messages/$conversationId': {
       id: '/_authenticated/messages/$conversationId'
@@ -1038,29 +1019,17 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
-interface MarketplaceRouteChildren {
-  MarketplaceServiceServiceSlugRoute: typeof MarketplaceServiceServiceSlugRoute
-}
-
-const MarketplaceRouteChildren: MarketplaceRouteChildren = {
-  MarketplaceServiceServiceSlugRoute: MarketplaceServiceServiceSlugRoute,
-}
-
-const MarketplaceRouteWithChildren = MarketplaceRoute._addFileChildren(
-  MarketplaceRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
-  MarketplaceRoute: MarketplaceRouteWithChildren,
+  MarketplaceRoute: MarketplaceRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   VerifyEmailRoute: VerifyEmailRoute,
-  MarketplaceOfferIdRoute: MarketplaceOfferIdRoute,
   OffresOfferIdRoute: OffresOfferIdRoute,
+  MarketplaceServiceServiceSlugRoute: MarketplaceServiceServiceSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
