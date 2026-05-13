@@ -62,13 +62,6 @@ function MarketplacePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 pb-4 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link to="/" className="text-base font-semibold tracking-tight">
-            <span className="brand-wordmark">PartageCo</span>
-          </Link>
-        </div>
-      </header>
 
       <main className="mx-auto max-w-6xl px-6 py-10">
         <h1 className="text-3xl font-semibold tracking-tight">Marketplace</h1>
