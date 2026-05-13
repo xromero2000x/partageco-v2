@@ -1,23 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Users,
-  MessagesSquare,
-  Menu,
-} from "lucide-react";
-
-import { BackButton } from "@/components/back-button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+import { ArrowRight, ShieldCheck, Users, MessagesSquare } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
