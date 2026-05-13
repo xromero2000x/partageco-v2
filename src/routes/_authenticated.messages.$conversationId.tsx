@@ -121,7 +121,6 @@ function ConversationPage() {
 
       <div className="mt-4 rounded-lg border border-border bg-card p-4">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
-          {conversation.conversation_type === "offer_context" && "Contexte offre"}
           {conversation.conversation_type === "participation_context" && "Contexte participation"}
           {conversation.conversation_type === "dispute_context" && "Contexte litige"}
         </div>
