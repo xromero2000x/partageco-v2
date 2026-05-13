@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import heroNeon from "@/assets/hero-neon-heart.jpg";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Toaster } from "@/components/ui/sonner";
+import { SiteHeader } from "@/components/site-header";
 
 function NotFoundComponent() {
   return (
@@ -129,6 +130,7 @@ function RootComponent() {
           aria-hidden="true"
           className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-background/70 via-background/85 to-background"
         />
+        <SiteHeader />
         <Outlet />
         <Toaster />
       </AuthProvider>
