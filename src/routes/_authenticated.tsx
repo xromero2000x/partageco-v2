@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_authenticated")({
 });
 
 function AuthenticatedLayout() {
-  const { loading, isAuthenticated, appUser, profile, signOut } = useAuth();
+  const { loading, isAuthenticated, appUser, signOut } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
