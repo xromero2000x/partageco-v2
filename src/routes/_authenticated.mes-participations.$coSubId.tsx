@@ -263,6 +263,15 @@ function ParticipationDetailPage() {
         </div>
       )}
 
+      {/* Review section — visible to the subscriber once participation has been active or ended */}
+      {appUser?.id === cs.subscriber_user_id &&
+        ["active", "ended", "cancelled"].includes(status) && (
+          <LeaveReviewSection
+            coSubId={coSubId}
+            ownerName={(cs as { owner_display_name?: string }).owner_display_name ?? "le propriétaire"}
+          />
+        )}
+
       <div className="mt-6 flex flex-wrap gap-3">
         {status === "active" && (
           <Button
