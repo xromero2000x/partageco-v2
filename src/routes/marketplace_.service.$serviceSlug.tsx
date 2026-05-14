@@ -8,6 +8,13 @@ import {
   MVP_NOTICE,
   NON_AFFILIATION_NOTICE,
 } from "@/components/marketplace/serviceVisuals";
+import { getServiceFaq } from "@/components/marketplace/serviceFaq";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type OfferWithCreated = MarketplaceOfferLike & { created_at?: string };
 
