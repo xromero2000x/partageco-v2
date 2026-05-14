@@ -57,6 +57,8 @@ export interface AppUserProfile {
   user_id: string;
   display_name: string;
   preferred_language: string;
+  bio: string | null;
+  avatar_url: string | null;
 }
 
 export interface AppUserRecord {
@@ -96,7 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .maybeSingle(),
       supabase
         .from("user_profiles")
-        .select("user_id, display_name, preferred_language")
+        .select("user_id, display_name, preferred_language, bio, avatar_url")
         .eq("user_id", uid)
         .maybeSingle(),
     ]);
