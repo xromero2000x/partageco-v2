@@ -10,6 +10,8 @@ import {
 } from "@/lib/participations.functions";
 import { ensureParticipationConversation } from "@/lib/messages.functions";
 import { startPaymentCheckout } from "@/lib/payments.functions";
+import { LeaveReviewSection } from "@/components/reviews/LeaveReviewSection";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/mes-participations/$coSubId")({
   component: ParticipationDetailPage,
@@ -59,6 +61,7 @@ function ParticipationDetailPage() {
   const { coSubId } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { appUser } = useAuth();
   const fetchOne = useServerFn(getMyParticipation);
   const cancel = useServerFn(cancelParticipation);
   const ensureConv = useServerFn(ensureParticipationConversation);
