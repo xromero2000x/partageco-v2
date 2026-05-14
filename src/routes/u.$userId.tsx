@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ShieldCheck, Star } from "lucide-react";
-import { getPublicProfile } from "@/lib/profiles.functions";
+import { getPublicProfile, type PublicReview } from "@/lib/profiles.functions";
 
 export const Route = createFileRoute("/u/$userId")({
   loader: async ({ params }) => {
@@ -175,7 +175,7 @@ function PublicProfilePage() {
             </p>
           ) : (
             <ul className="mt-5 space-y-4" role="list">
-              {reviews.map((r) => (
+              {reviews.map((r: PublicReview) => (
                 <li
                   key={r.id}
                   className="rounded-lg border border-border bg-card p-5"
