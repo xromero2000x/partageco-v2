@@ -285,7 +285,58 @@ function PublicOfferPage() {
         </div>
         <p className="mt-3 text-xs text-muted-foreground">{NON_AFFILIATION_NOTICE}</p>
 
-        <section className="mt-8 rounded-lg border border-border p-6">
+        {/* Owner trust card — primary reassurance */}
+        <section className="mt-8 rounded-lg border border-border bg-card p-6">
+          <h2 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Proposé par
+          </h2>
+          <div className="mt-3 flex items-center gap-4">
+            <div
+              aria-hidden="true"
+              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/80 to-primary text-lg font-semibold text-primary-foreground"
+            >
+              {(offer.owner_display_name ?? "M")
+                .trim()
+                .split(/\s+/)
+                .slice(0, 2)
+                .map((s) => s[0]?.toUpperCase() ?? "")
+                .join("") || "M"}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-base font-semibold text-foreground">
+                  {offer.owner_display_name ?? "Membre"}
+                </p>
+                {offer.owner_email_verified && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
+                    ✓ Email vérifié
+                  </span>
+                )}
+              </div>
+              {offer.owner_member_since && (
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  Membre depuis{" "}
+                  {new Date(offer.owner_member_since).toLocaleDateString("fr-FR", {
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </p>
+              )}
+              {typeof offer.owner_active_offers_count === "number" && (
+                <p className="text-xs text-muted-foreground">
+                  {offer.owner_active_offers_count} offre
+                  {offer.owner_active_offers_count > 1 ? "s" : ""} active
+                  {offer.owner_active_offers_count > 1 ? "s" : ""} sur PartageCo
+                </p>
+              )}
+            </div>
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Les échanges se font via la messagerie interne après acceptation de votre demande. Aucun paiement réel n'est exécuté pendant la phase MVP.
+          </p>
+        </section>
+
+        <section className="mt-6 rounded-lg border border-border p-6">
           <dl className="grid gap-4 sm:grid-cols-2">
             <div>
               <dt className="text-xs text-muted-foreground">Montant indicatif mensuel</dt>
