@@ -299,7 +299,7 @@ function PublicOfferPage() {
                 .trim()
                 .split(/\s+/)
                 .slice(0, 2)
-                .map((s) => s[0]?.toUpperCase() ?? "")
+                .map((s: string) => s[0]?.toUpperCase() ?? "")
                 .join("") || "M"}
             </div>
             <div className="min-w-0 flex-1">
