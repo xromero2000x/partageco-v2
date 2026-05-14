@@ -265,6 +265,28 @@ function ServicePage() {
           </ul>
         )}
 
+        {/* FAQ adaptée au service — inspiration Spliiit */}
+        <section className="mt-16 border-t border-border pt-10" aria-labelledby="faq-title">
+          <h2 id="faq-title" className="text-2xl font-semibold tracking-tight">
+            Questions fréquentes
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Tout ce qu'il faut savoir avant de rejoindre une offre {serviceName}.
+          </p>
+          <Accordion type="single" collapsible className="mt-6">
+            {getServiceFaq(serviceSlug, serviceName).map((entry, i) => (
+              <AccordionItem key={i} value={`faq-${i}`}>
+                <AccordionTrigger className="text-left text-base font-medium">
+                  {entry.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                  {entry.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
+
       </main>
     </div>
   );
