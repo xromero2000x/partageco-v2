@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Star } from "lucide-react";
 
 export interface MarketplaceOfferLike {
   id: string;
@@ -15,8 +15,11 @@ export interface MarketplaceOfferLike {
   created_at?: string;
   owner_user_id?: string;
   owner_display_name?: string | null;
+  owner_avatar_url?: string | null;
   owner_member_since?: string | null;
   owner_email_verified?: boolean;
+  owner_rating_avg?: number | null;
+  owner_rating_count?: number;
 }
 
 function formatAmount(amount: number, currency: string) {
@@ -73,6 +76,8 @@ export function OfferCard({ offer }: { offer: MarketplaceOfferLike }) {
   const memberSince = memberSinceLabel(offer.owner_member_since);
   const gradient = gradientFor(offer.owner_user_id ?? ownerName);
   const lastSlot = slots <= 1;
+  const ratingCount = offer.owner_rating_count ?? 0;
+  const ratingAvg = offer.owner_rating_avg ?? null;
 
   return (
     <Link
@@ -83,9 +88,17 @@ export function OfferCard({ offer }: { offer: MarketplaceOfferLike }) {
       {/* Avatar — central visual element, spliiit-style */}
       <div
         aria-hidden="true"
-        className={`flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br ${gradient} text-2xl font-semibold text-white shadow-md ring-4 ring-background`}
+        className={`flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br ${gradient} text-2xl font-semibold text-white shadow-md ring-4 ring-background`}
       >
-        {initials(ownerName)}
+        {offer.owner_avatar_url ? (
+          <img
+            src={offer.owner_avatar_url}
+            alt=""
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          initials(ownerName)
+        )}
       </div>
 
       {/* Owner name + verified badge */}
@@ -99,8 +112,25 @@ export function OfferCard({ offer }: { offer: MarketplaceOfferLike }) {
         )}
       </div>
 
+      {/* Rating row (always visible — "Nouveau" if no review yet) */}
+      <div className="mt-1 flex items-center gap-1 text-xs">
+        {ratingCount > 0 ? (
+          <>
+            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" aria-hidden="true" />
+            <span className="font-medium text-foreground">{ratingAvg?.toFixed(1)}</span>
+            <span className="text-muted-foreground">
+              ({ratingCount} avis)
+            </span>
+          </>
+        ) : (
+          <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+            Nouveau membre
+          </span>
+        )}
+      </div>
+
       {memberSince && (
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-0.5 text-[11px] text-muted-foreground">
           Membre depuis {memberSince}
         </p>
       )}
