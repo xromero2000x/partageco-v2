@@ -6,11 +6,14 @@ import { updateMyProfile } from "@/lib/profile.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { AvatarUploader } from "@/components/profile/AvatarUploader";
 import { toast } from "sonner";
 
 const PROFILE_ERROR_MAP: Record<string, string> = {
   display_name_too_short: "Le nom d'affichage doit contenir au moins 2 caractères.",
   display_name_too_long: "Le nom d'affichage ne peut pas dépasser 80 caractères.",
+  bio_too_long: "La bio ne peut pas dépasser 500 caractères.",
   update_failed: "Impossible d'enregistrer la modification.",
 };
 
@@ -23,6 +26,7 @@ function ProfilePage() {
   const { appUser, profile, refresh } = useAuth();
   const save = useServerFn(updateMyProfile);
   const [displayName, setDisplayName] = useState(profile?.display_name ?? "");
+  const [bio, setBio] = useState(profile?.bio ?? "");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,7 +36,12 @@ function ProfilePage() {
     if (!appUser) return;
     setSubmitting(true);
     try {
-      await save({ data: { display_name: displayName } });
+      await save({
+        data: {
+          display_name: displayName,
+          bio: bio.trim() || null,
+        },
+      });
       await refresh();
       toast.success("Profil mis à jour.");
     } catch (e) {
@@ -52,7 +61,36 @@ function ProfilePage() {
         </p>
       </header>
 
-      <section className="rounded-lg border border-border p-6">
+      {/* Photo de profil */}
+      {appUser && (
+        <section className="rounded-lg border border-border p-6">
+          <h2 className="text-base font-medium">Photo de profil</h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Une photo claire rassure les autres membres et booste vos chances d'être accepté.
+          </p>
+          <div className="mt-5">
+            <AvatarUploader
+              userId={appUser.id}
+              displayName={profile?.display_name ?? appUser.email}
+              avatarUrl={profile?.avatar_url ?? null}
+              onChange={refresh}
+            />
+          </div>
+          {profile?.user_id && (
+            <p className="mt-4 text-xs">
+              <Link
+                to="/u/$userId"
+                params={{ userId: profile.user_id }}
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Voir mon profil public →
+              </Link>
+            </p>
+          )}
+        </section>
+      )}
+
+      <section className="mt-6 rounded-lg border border-border p-6">
         <h2 className="text-base font-medium">Informations</h2>
         <form onSubmit={onSubmit} className="mt-4 space-y-4" noValidate>
           <div className="space-y-2">
@@ -78,6 +116,21 @@ function ProfilePage() {
               maxLength={50}
               required
             />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="bio">Bio</Label>
+            <Textarea
+              id="bio"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              maxLength={500}
+              rows={4}
+              placeholder="Quelques mots sur vous : ce que vous partagez, vos habitudes, etc."
+              aria-describedby="bio-help"
+            />
+            <p id="bio-help" className="text-xs text-muted-foreground">
+              {bio.length}/500 caractères. Visible sur votre profil public.
+            </p>
           </div>
           {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
           <Button type="submit" disabled={submitting}>
