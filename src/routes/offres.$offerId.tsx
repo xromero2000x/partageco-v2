@@ -290,17 +290,29 @@ function PublicOfferPage() {
           <h2 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Proposé par
           </h2>
-          <div className="mt-3 flex items-center gap-4">
+          <Link
+            to="/u/$userId"
+            params={{ userId: offer.owner_user_id }}
+            className="mt-3 flex items-center gap-4 rounded-lg p-2 -m-2 transition hover:bg-muted/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
             <div
               aria-hidden="true"
-              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/80 to-primary text-lg font-semibold text-primary-foreground"
+              className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary/80 to-primary text-lg font-semibold text-primary-foreground"
             >
-              {(offer.owner_display_name ?? "M")
-                .trim()
-                .split(/\s+/)
-                .slice(0, 2)
-                .map((s: string) => s[0]?.toUpperCase() ?? "")
-                .join("") || "M"}
+              {offer.owner_avatar_url ? (
+                <img
+                  src={offer.owner_avatar_url}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                (offer.owner_display_name ?? "M")
+                  .trim()
+                  .split(/\s+/)
+                  .slice(0, 2)
+                  .map((s: string) => s[0]?.toUpperCase() ?? "")
+                  .join("") || "M"
+              )}
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
@@ -313,6 +325,25 @@ function PublicOfferPage() {
                   </span>
                 )}
               </div>
+
+              {/* Rating */}
+              <div className="mt-1 flex items-center gap-1.5 text-xs">
+                {(offer.owner_rating_count ?? 0) > 0 ? (
+                  <>
+                    <span className="inline-flex items-center gap-1 font-medium text-foreground">
+                      ★ {offer.owner_rating_avg?.toFixed(1)}
+                    </span>
+                    <span className="text-muted-foreground">
+                      ({offer.owner_rating_count} avis)
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-muted-foreground">
+                    Nouveau membre — pas encore d'avis
+                  </span>
+                )}
+              </div>
+
               {offer.owner_member_since && (
                 <p className="mt-0.5 text-xs text-muted-foreground">
                   Membre depuis{" "}
@@ -329,8 +360,11 @@ function PublicOfferPage() {
                   {offer.owner_active_offers_count > 1 ? "s" : ""} sur PartageCo
                 </p>
               )}
+              <p className="mt-2 text-xs font-medium text-primary">
+                Voir le profil →
+              </p>
             </div>
-          </div>
+          </Link>
           <p className="mt-4 text-xs text-muted-foreground">
             Les échanges se font via la messagerie interne après acceptation de votre demande. Aucun paiement réel n'est exécuté pendant la phase MVP.
           </p>
