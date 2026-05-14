@@ -228,16 +228,16 @@ export const getPublicOffer = createServerFn({ method: "GET" })
     const { data: o } = await supabaseAdmin
       .from("subscription_offers")
       .select(
-        `id,title,description,monthly_price_amount,currency,available_slots,offer_status,visibility,owner_user_id,
+        `id,title,description,monthly_price_amount,currency,available_slots,offer_status,visibility,owner_user_id,created_at,
          category:subscription_categories!subscription_offers_category_id_fkey(name),
          service:subscription_services!subscription_offers_service_id_fkey(slug,name),
          plan:subscription_service_plans!subscription_offers_service_plan_id_fkey(slug,name,is_active),
-         owner:users!subscription_offers_owner_user_id_fkey(account_status,deleted_at)`
+         owner:users!subscription_offers_owner_user_id_fkey(account_status,deleted_at,created_at,email_verified_at)`
       )
       .eq("id", data.offerId)
       .maybeSingle();
     if (!o) throw new Error("not_found");
-    const owner = o.owner as { account_status?: string; deleted_at?: string | null } | null;
+    const owner = o.owner as { account_status?: string; deleted_at?: string | null; created_at?: string; email_verified_at?: string | null } | null;
     const isPublic =
       o.offer_status === "active" &&
       o.visibility === "public" &&
@@ -246,6 +246,22 @@ export const getPublicOffer = createServerFn({ method: "GET" })
       owner?.deleted_at === null;
     if (!isPublic) throw new Error("not_found");
     const plan = o.plan as { slug?: string; name?: string; is_active?: boolean } | null;
+
+    // Trust signals: owner profile + count of active public offers from this owner.
+    const [{ data: prof }, { count: ownerActiveOffers }] = await Promise.all([
+      supabaseAdmin
+        .from("user_profiles")
+        .select("display_name")
+        .eq("user_id", o.owner_user_id)
+        .maybeSingle(),
+      supabaseAdmin
+        .from("subscription_offers")
+        .select("id", { count: "exact", head: true })
+        .eq("owner_user_id", o.owner_user_id)
+        .eq("offer_status", "active")
+        .eq("visibility", "public"),
+    ]);
+
     return {
       offer: {
         id: o.id,
@@ -260,6 +276,10 @@ export const getPublicOffer = createServerFn({ method: "GET" })
         service_name: (o.service as { name?: string } | null)?.name ?? null,
         plan_slug: plan?.is_active ? plan.slug ?? null : null,
         plan_name: plan?.is_active ? plan.name ?? null : null,
+        owner_display_name: (prof?.display_name as string | undefined) ?? "Membre",
+        owner_member_since: owner?.created_at ?? null,
+        owner_email_verified: !!owner?.email_verified_at,
+        owner_active_offers_count: ownerActiveOffers ?? 1,
       },
     };
   });
