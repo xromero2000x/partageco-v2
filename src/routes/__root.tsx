@@ -13,6 +13,8 @@ import heroNeon from "@/assets/hero-neon-heart.jpg";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Toaster } from "@/components/ui/sonner";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { CookieBanner } from "@/components/cookie-banner";
 
 function NotFoundComponent() {
   return (
@@ -132,6 +134,8 @@ function RootComponent() {
         />
         <SiteHeader />
         <Outlet />
+        <SiteFooter />
+        <CookieBanner />
         <Toaster />
       </AuthProvider>
     </QueryClientProvider>

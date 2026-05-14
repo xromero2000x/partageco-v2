@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ShieldCheck, Star } from "lucide-react";
-import { getPublicProfile, type PublicReview } from "@/lib/profiles.functions";
+import { getPublicProfile, type PublicReview } from "@/lib/reviews.functions";
 
 export const Route = createFileRoute("/u/$userId")({
   loader: async ({ params }) => {

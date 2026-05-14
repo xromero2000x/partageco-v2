@@ -10,6 +10,8 @@ import {
 } from "@/lib/participations.functions";
 import { ensureParticipationConversation } from "@/lib/messages.functions";
 import { startPaymentCheckout } from "@/lib/payments.functions";
+import { LeaveReviewSection } from "@/components/reviews/LeaveReviewSection";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/mes-participations/$coSubId")({
   component: ParticipationDetailPage,
@@ -59,6 +61,7 @@ function ParticipationDetailPage() {
   const { coSubId } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { appUser } = useAuth();
   const fetchOne = useServerFn(getMyParticipation);
   const cancel = useServerFn(cancelParticipation);
   const ensureConv = useServerFn(ensureParticipationConversation);
@@ -259,6 +262,15 @@ function ParticipationDetailPage() {
           )}
         </div>
       )}
+
+      {/* Review section — visible to the subscriber once participation has been active or ended */}
+      {appUser?.id === cs.subscriber_user_id &&
+        ["active", "ended", "cancelled"].includes(status) && (
+          <LeaveReviewSection
+            coSubId={coSubId}
+            ownerName={(cs as { owner_display_name?: string }).owner_display_name ?? "le propriétaire"}
+          />
+        )}
 
       <div className="mt-6 flex flex-wrap gap-3">
         {status === "active" && (

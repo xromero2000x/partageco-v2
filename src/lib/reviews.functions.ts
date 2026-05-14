@@ -3,7 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-// ---------- Public profile + reviews ----------
+// ---------- Types ----------
 
 export type PublicReview = {
   id: string;
@@ -24,6 +24,8 @@ export type PublicProfile = {
   rating_avg: number | null;
   rating_count: number;
 };
+
+// ---------- Public profile + reviews ----------
 
 export const getPublicProfile = createServerFn({ method: "GET" })
   .inputValidator((d: { userId: string }) =>
@@ -100,36 +102,34 @@ export const getPublicProfile = createServerFn({ method: "GET" })
     };
   });
 
-// Lightweight scores for marketplace cards (bulk fetch)
-export const getSellerScores = createServerFn({ method: "POST" })
-  .inputValidator((d: { userIds: string[] }) =>
-    z.object({ userIds: z.array(z.string().uuid()).max(200) }).parse(d),
+// ---------- My review for a co-subscription (lightweight) ----------
+
+export const getMyReviewForCoSub = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { coSubId: string }) =>
+    z.object({ coSubId: z.string().uuid() }).parse(d),
   )
-  .handler(async ({ data }) => {
-    if (data.userIds.length === 0) return { scores: {} as Record<string, { rating_avg: number | null; rating_count: number }> };
-    const { data: rows } = await supabaseAdmin
+  .handler(async ({ data, context }) => {
+    const { userId } = context;
+    const { data: r } = await supabaseAdmin
       .from("reviews")
-      .select("reviewee_user_id,rating")
-      .eq("is_published", true)
-      .in("reviewee_user_id", data.userIds);
-    const acc: Record<string, { sum: number; n: number }> = {};
-    for (const r of rows ?? []) {
-      const id = r.reviewee_user_id as string;
-      acc[id] ??= { sum: 0, n: 0 };
-      acc[id].sum += r.rating as number;
-      acc[id].n += 1;
-    }
-    const scores: Record<string, { rating_avg: number | null; rating_count: number }> = {};
-    for (const id of data.userIds) {
-      const a = acc[id];
-      scores[id] = a
-        ? { rating_avg: Math.round((a.sum / a.n) * 10) / 10, rating_count: a.n }
-        : { rating_avg: null, rating_count: 0 };
-    }
-    return { scores };
+      .select("id,rating,comment,created_at")
+      .eq("co_subscription_id", data.coSubId)
+      .eq("reviewer_user_id", userId)
+      .maybeSingle();
+    return {
+      review: r
+        ? {
+            id: r.id as string,
+            rating: r.rating as number,
+            comment: (r.comment as string | null) ?? null,
+            created_at: r.created_at as string,
+          }
+        : null,
+    };
   });
 
-// ---------- Reviews: create ----------
+// ---------- Create review ----------
 
 export const createReview = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -138,7 +138,12 @@ export const createReview = createServerFn({ method: "POST" })
       .object({
         co_subscription_id: z.string().uuid(),
         rating: z.number().int().min(1).max(5),
-        comment: z.string().max(1000).optional().nullable(),
+        comment: z
+          .string()
+          .trim()
+          .max(1000, "comment_too_long")
+          .optional()
+          .nullable(),
       })
       .parse(d),
   )
@@ -151,51 +156,26 @@ export const createReview = createServerFn({ method: "POST" })
       .maybeSingle();
     if (!cs) throw new Error("not_found");
     if (cs.subscriber_user_id !== userId) throw new Error("forbidden");
-    if (!["active", "ended", "cancelled"].includes(cs.participation_status as string)) {
+    const status = cs.participation_status as string;
+    if (!["active", "ended", "cancelled"].includes(status)) {
       throw new Error("review_not_allowed_yet");
     }
+
+    const comment =
+      data.comment === undefined || data.comment === null
+        ? null
+        : data.comment.trim() || null;
+
     const { error } = await supabaseAdmin.from("reviews").insert({
       co_subscription_id: data.co_subscription_id,
       reviewer_user_id: userId,
       reviewee_user_id: cs.owner_user_id,
       rating: data.rating,
-      comment: data.comment ?? null,
+      comment,
     });
     if (error) {
       if (error.code === "23505") throw new Error("review_already_exists");
-      throw new Error(error.message);
+      throw new Error(error.message || "review_create_failed");
     }
-    return { ok: true };
-  });
-
-// ---------- Profile self-edit (bio + avatar_url) ----------
-
-export const updateMyProfile = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) =>
-    z
-      .object({
-        display_name: z.string().min(1).max(60).optional(),
-        bio: z.string().max(500).optional().nullable(),
-        avatar_url: z.string().url().max(500).optional().nullable(),
-      })
-      .parse(d),
-  )
-  .handler(async ({ data, context }) => {
-    const { userId } = context;
-    const patch: {
-      display_name?: string;
-      bio?: string | null;
-      avatar_url?: string | null;
-    } = {};
-    if (data.display_name !== undefined) patch.display_name = data.display_name;
-    if (data.bio !== undefined) patch.bio = data.bio;
-    if (data.avatar_url !== undefined) patch.avatar_url = data.avatar_url;
-    if (Object.keys(patch).length === 0) return { ok: true };
-    const { error } = await supabaseAdmin
-      .from("user_profiles")
-      .update(patch)
-      .eq("user_id", userId);
-    if (error) throw new Error(error.message);
     return { ok: true };
   });
