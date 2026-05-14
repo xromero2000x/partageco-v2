@@ -161,11 +161,11 @@ export const listMarketplaceOffers = createServerFn({ method: "GET" }).handler(
     const { data, error } = await supabaseAdmin
       .from("subscription_offers")
       .select(
-        `id,title,description,monthly_price_amount,currency,available_slots,total_slots,service_plan_id,created_at,
+        `id,title,description,monthly_price_amount,currency,available_slots,total_slots,service_plan_id,created_at,owner_user_id,
          category:subscription_categories!subscription_offers_category_id_fkey(id,slug,name),
          service:subscription_services!subscription_offers_service_id_fkey(id,slug,name),
          plan:subscription_service_plans!subscription_offers_service_plan_id_fkey(id,slug,name,is_active),
-         owner:users!subscription_offers_owner_user_id_fkey(id,account_status,deleted_at)`
+         owner:users!subscription_offers_owner_user_id_fkey(id,account_status,deleted_at,created_at,email_verified_at)`
       )
       .eq("offer_status", "active")
       .eq("visibility", "public")
@@ -179,9 +179,22 @@ export const listMarketplaceOffers = createServerFn({ method: "GET" }).handler(
         (o.owner as { account_status?: string }).account_status === "active" &&
         (o.owner as { deleted_at?: string | null }).deleted_at === null
     );
+
+    // Bulk-fetch owner profiles + owner active-offer counts (trust signals).
+    const ownerIds = Array.from(new Set(visible.map((o) => o.owner_user_id))) as string[];
+    const profilesMap = new Map<string, string>();
+    if (ownerIds.length > 0) {
+      const { data: profs } = await supabaseAdmin
+        .from("user_profiles")
+        .select("user_id,display_name")
+        .in("user_id", ownerIds);
+      for (const p of profs ?? []) profilesMap.set(p.user_id as string, p.display_name as string);
+    }
+
     return {
       offers: visible.map((o) => {
         const plan = o.plan as { id?: string; slug?: string; name?: string; is_active?: boolean } | null;
+        const owner = o.owner as { id?: string; created_at?: string; email_verified_at?: string | null } | null;
         return {
           id: o.id,
           title: o.title,
@@ -197,6 +210,10 @@ export const listMarketplaceOffers = createServerFn({ method: "GET" }).handler(
           plan_id: plan?.is_active ? plan.id ?? null : null,
           plan_slug: plan?.is_active ? plan.slug ?? null : null,
           plan_name: plan?.is_active ? plan.name ?? null : null,
+          owner_user_id: o.owner_user_id,
+          owner_display_name: profilesMap.get(o.owner_user_id as string) ?? "Membre",
+          owner_member_since: owner?.created_at ?? null,
+          owner_email_verified: !!owner?.email_verified_at,
         };
       }),
     };
