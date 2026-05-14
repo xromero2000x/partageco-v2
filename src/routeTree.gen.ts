@@ -19,6 +19,11 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UUserIdRouteImport } from './routes/u.$userId'
 import { Route as OffresOfferIdRouteImport } from './routes/offres.$offerId'
+import { Route as LegalMentionsLegalesRouteImport } from './routes/legal.mentions-legales'
+import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
+import { Route as LegalConfidentialiteRouteImport } from './routes/legal.confidentialite'
+import { Route as LegalCgvRouteImport } from './routes/legal.cgv'
+import { Route as LegalCguRouteImport } from './routes/legal.cgu'
 import { Route as AuthenticatedSecuriteRouteImport } from './routes/_authenticated.securite'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
@@ -98,6 +103,31 @@ const UUserIdRoute = UUserIdRouteImport.update({
 const OffresOfferIdRoute = OffresOfferIdRouteImport.update({
   id: '/offres/$offerId',
   path: '/offres/$offerId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalMentionsLegalesRoute = LegalMentionsLegalesRouteImport.update({
+  id: '/legal/mentions-legales',
+  path: '/legal/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalCookiesRoute = LegalCookiesRouteImport.update({
+  id: '/legal/cookies',
+  path: '/legal/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalConfidentialiteRoute = LegalConfidentialiteRouteImport.update({
+  id: '/legal/confidentialite',
+  path: '/legal/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalCgvRoute = LegalCgvRouteImport.update({
+  id: '/legal/cgv',
+  path: '/legal/cgv',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalCguRoute = LegalCguRouteImport.update({
+  id: '/legal/cgu',
+  path: '/legal/cgu',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSecuriteRoute = AuthenticatedSecuriteRouteImport.update({
@@ -297,6 +327,11 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/securite': typeof AuthenticatedSecuriteRoute
+  '/legal/cgu': typeof LegalCguRoute
+  '/legal/cgv': typeof LegalCgvRoute
+  '/legal/confidentialite': typeof LegalConfidentialiteRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/mentions-legales': typeof LegalMentionsLegalesRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
   '/u/$userId': typeof UUserIdRoute
   '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
@@ -338,6 +373,11 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/securite': typeof AuthenticatedSecuriteRoute
+  '/legal/cgu': typeof LegalCguRoute
+  '/legal/cgv': typeof LegalCgvRoute
+  '/legal/confidentialite': typeof LegalConfidentialiteRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/mentions-legales': typeof LegalMentionsLegalesRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
   '/u/$userId': typeof UUserIdRoute
   '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
@@ -380,6 +420,11 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/securite': typeof AuthenticatedSecuriteRoute
+  '/legal/cgu': typeof LegalCguRoute
+  '/legal/cgv': typeof LegalCgvRoute
+  '/legal/confidentialite': typeof LegalConfidentialiteRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/mentions-legales': typeof LegalMentionsLegalesRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
   '/u/$userId': typeof UUserIdRoute
   '/_authenticated/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
@@ -424,6 +469,11 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/securite'
+    | '/legal/cgu'
+    | '/legal/cgv'
+    | '/legal/confidentialite'
+    | '/legal/cookies'
+    | '/legal/mentions-legales'
     | '/offres/$offerId'
     | '/u/$userId'
     | '/admin/categories-services'
@@ -465,6 +515,11 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/securite'
+    | '/legal/cgu'
+    | '/legal/cgv'
+    | '/legal/confidentialite'
+    | '/legal/cookies'
+    | '/legal/mentions-legales'
     | '/offres/$offerId'
     | '/u/$userId'
     | '/admin/categories-services'
@@ -506,6 +561,11 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/profile'
     | '/_authenticated/securite'
+    | '/legal/cgu'
+    | '/legal/cgv'
+    | '/legal/confidentialite'
+    | '/legal/cookies'
+    | '/legal/mentions-legales'
     | '/offres/$offerId'
     | '/u/$userId'
     | '/_authenticated/admin/categories-services'
@@ -542,6 +602,11 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  LegalCguRoute: typeof LegalCguRoute
+  LegalCgvRoute: typeof LegalCgvRoute
+  LegalConfidentialiteRoute: typeof LegalConfidentialiteRoute
+  LegalCookiesRoute: typeof LegalCookiesRoute
+  LegalMentionsLegalesRoute: typeof LegalMentionsLegalesRoute
   OffresOfferIdRoute: typeof OffresOfferIdRoute
   UUserIdRoute: typeof UUserIdRoute
   MarketplaceServiceServiceSlugRoute: typeof MarketplaceServiceServiceSlugRoute
@@ -617,6 +682,41 @@ declare module '@tanstack/react-router' {
       path: '/offres/$offerId'
       fullPath: '/offres/$offerId'
       preLoaderRoute: typeof OffresOfferIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/mentions-legales': {
+      id: '/legal/mentions-legales'
+      path: '/legal/mentions-legales'
+      fullPath: '/legal/mentions-legales'
+      preLoaderRoute: typeof LegalMentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/cookies': {
+      id: '/legal/cookies'
+      path: '/legal/cookies'
+      fullPath: '/legal/cookies'
+      preLoaderRoute: typeof LegalCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/confidentialite': {
+      id: '/legal/confidentialite'
+      path: '/legal/confidentialite'
+      fullPath: '/legal/confidentialite'
+      preLoaderRoute: typeof LegalConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/cgv': {
+      id: '/legal/cgv'
+      path: '/legal/cgv'
+      fullPath: '/legal/cgv'
+      preLoaderRoute: typeof LegalCgvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/cgu': {
+      id: '/legal/cgu'
+      path: '/legal/cgu'
+      fullPath: '/legal/cgu'
+      preLoaderRoute: typeof LegalCguRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/securite': {
@@ -1048,6 +1148,11 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  LegalCguRoute: LegalCguRoute,
+  LegalCgvRoute: LegalCgvRoute,
+  LegalConfidentialiteRoute: LegalConfidentialiteRoute,
+  LegalCookiesRoute: LegalCookiesRoute,
+  LegalMentionsLegalesRoute: LegalMentionsLegalesRoute,
   OffresOfferIdRoute: OffresOfferIdRoute,
   UUserIdRoute: UUserIdRoute,
   MarketplaceServiceServiceSlugRoute: MarketplaceServiceServiceSlugRoute,
