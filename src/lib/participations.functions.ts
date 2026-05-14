@@ -538,13 +538,20 @@ export const getMyParticipation = createServerFn({ method: "GET" })
       const actor = await loadActor(userId);
       if (!actor.isSuper && !actor.isSupport && !actor.isModerator) throw new Error("forbidden");
     }
-    const { data: payment } = await supabaseAdmin
-      .from("payment_records")
-      .select("id,gross_amount,currency,payment_status,created_at")
-      .eq("co_subscription_id", cs.id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    const [{ data: payment }, { data: ownerProfile }] = await Promise.all([
+      supabaseAdmin
+        .from("payment_records")
+        .select("id,gross_amount,currency,payment_status,created_at")
+        .eq("co_subscription_id", cs.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      supabaseAdmin
+        .from("user_profiles")
+        .select("display_name")
+        .eq("user_id", cs.owner_user_id)
+        .maybeSingle(),
+    ]);
     const offerRaw = (cs as { offer?: {
       id: string; title: string; description: string | null;
       currency: string; monthly_price_amount: number;
@@ -576,6 +583,7 @@ export const getMyParticipation = createServerFn({ method: "GET" })
         ended_at: cs.ended_at,
         offer_id: cs.offer_id,
         owner_user_id: cs.owner_user_id,
+        owner_display_name: (ownerProfile?.display_name as string | undefined) ?? "Membre",
         subscriber_user_id: cs.subscriber_user_id,
         offer: enrichedOffer,
       },
