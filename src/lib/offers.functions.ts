@@ -182,19 +182,49 @@ export const listMarketplaceOffers = createServerFn({ method: "GET" }).handler(
 
     // Bulk-fetch owner profiles + owner active-offer counts (trust signals).
     const ownerIds = Array.from(new Set(visible.map((o) => o.owner_user_id))) as string[];
-    const profilesMap = new Map<string, string>();
+    const profilesMap = new Map<string, { display_name: string; avatar_url: string | null }>();
+    const scoreMap = new Map<string, { rating_avg: number | null; rating_count: number }>();
     if (ownerIds.length > 0) {
-      const { data: profs } = await supabaseAdmin
-        .from("user_profiles")
-        .select("user_id,display_name")
-        .in("user_id", ownerIds);
-      for (const p of profs ?? []) profilesMap.set(p.user_id as string, p.display_name as string);
+      const [{ data: profs }, { data: revs }] = await Promise.all([
+        supabaseAdmin
+          .from("user_profiles")
+          .select("user_id,display_name,avatar_url")
+          .in("user_id", ownerIds),
+        supabaseAdmin
+          .from("reviews")
+          .select("reviewee_user_id,rating")
+          .eq("is_published", true)
+          .in("reviewee_user_id", ownerIds),
+      ]);
+      for (const p of profs ?? [])
+        profilesMap.set(p.user_id as string, {
+          display_name: p.display_name as string,
+          avatar_url: (p.avatar_url as string | null) ?? null,
+        });
+      const acc: Record<string, { sum: number; n: number }> = {};
+      for (const r of revs ?? []) {
+        const id = r.reviewee_user_id as string;
+        acc[id] ??= { sum: 0, n: 0 };
+        acc[id].sum += r.rating as number;
+        acc[id].n += 1;
+      }
+      for (const id of ownerIds) {
+        const a = acc[id];
+        scoreMap.set(
+          id,
+          a
+            ? { rating_avg: Math.round((a.sum / a.n) * 10) / 10, rating_count: a.n }
+            : { rating_avg: null, rating_count: 0 },
+        );
+      }
     }
 
     return {
       offers: visible.map((o) => {
         const plan = o.plan as { id?: string; slug?: string; name?: string; is_active?: boolean } | null;
         const owner = o.owner as { id?: string; created_at?: string; email_verified_at?: string | null } | null;
+        const prof = profilesMap.get(o.owner_user_id as string);
+        const score = scoreMap.get(o.owner_user_id as string) ?? { rating_avg: null, rating_count: 0 };
         return {
           id: o.id,
           title: o.title,
@@ -211,9 +241,12 @@ export const listMarketplaceOffers = createServerFn({ method: "GET" }).handler(
           plan_slug: plan?.is_active ? plan.slug ?? null : null,
           plan_name: plan?.is_active ? plan.name ?? null : null,
           owner_user_id: o.owner_user_id,
-          owner_display_name: profilesMap.get(o.owner_user_id as string) ?? "Membre",
+          owner_display_name: prof?.display_name ?? "Membre",
+          owner_avatar_url: prof?.avatar_url ?? null,
           owner_member_since: owner?.created_at ?? null,
           owner_email_verified: !!owner?.email_verified_at,
+          owner_rating_avg: score.rating_avg,
+          owner_rating_count: score.rating_count,
         };
       }),
     };
@@ -247,11 +280,11 @@ export const getPublicOffer = createServerFn({ method: "GET" })
     if (!isPublic) throw new Error("not_found");
     const plan = o.plan as { slug?: string; name?: string; is_active?: boolean } | null;
 
-    // Trust signals: owner profile + count of active public offers from this owner.
-    const [{ data: prof }, { count: ownerActiveOffers }] = await Promise.all([
+    // Trust signals: owner profile + count of active public offers + reviews.
+    const [{ data: prof }, { count: ownerActiveOffers }, { data: revs }] = await Promise.all([
       supabaseAdmin
         .from("user_profiles")
-        .select("display_name")
+        .select("display_name,avatar_url,bio")
         .eq("user_id", o.owner_user_id)
         .maybeSingle(),
       supabaseAdmin
@@ -260,7 +293,20 @@ export const getPublicOffer = createServerFn({ method: "GET" })
         .eq("owner_user_id", o.owner_user_id)
         .eq("offer_status", "active")
         .eq("visibility", "public"),
+      supabaseAdmin
+        .from("reviews")
+        .select("rating")
+        .eq("reviewee_user_id", o.owner_user_id)
+        .eq("is_published", true),
     ]);
+
+    const ratingCount = (revs ?? []).length;
+    const ratingAvg =
+      ratingCount > 0
+        ? Math.round(
+            ((revs ?? []).reduce((s, r) => s + (r.rating as number), 0) / ratingCount) * 10,
+          ) / 10
+        : null;
 
     return {
       offer: {
@@ -277,9 +323,13 @@ export const getPublicOffer = createServerFn({ method: "GET" })
         plan_slug: plan?.is_active ? plan.slug ?? null : null,
         plan_name: plan?.is_active ? plan.name ?? null : null,
         owner_display_name: (prof?.display_name as string | undefined) ?? "Membre",
+        owner_avatar_url: (prof?.avatar_url as string | null | undefined) ?? null,
+        owner_bio: (prof?.bio as string | null | undefined) ?? null,
         owner_member_since: owner?.created_at ?? null,
         owner_email_verified: !!owner?.email_verified_at,
         owner_active_offers_count: ownerActiveOffers ?? 1,
+        owner_rating_avg: ratingAvg,
+        owner_rating_count: ratingCount,
       },
     };
   });
