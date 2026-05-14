@@ -32,36 +32,74 @@ async function writeProfileAudit(p: {
   });
 }
 
+const UpdateProfileInput = z.object({
+  display_name: z
+    .string()
+    .trim()
+    .min(2, "display_name_too_short")
+    .max(80, "display_name_too_long")
+    .optional(),
+  bio: z.string().trim().max(500, "bio_too_long").nullable().optional(),
+  avatar_url: z
+    .string()
+    .url("avatar_url_invalid")
+    .max(500, "avatar_url_too_long")
+    .nullable()
+    .optional(),
+});
+
 export const updateMyProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) =>
-    z
-      .object({
-        display_name: z
-          .string()
-          .trim()
-          .min(2, "display_name_too_short")
-          .max(80, "display_name_too_long"),
-      })
-      .parse(d)
-  )
+  .inputValidator((d: unknown) => UpdateProfileInput.parse(d))
   .handler(async ({ data, context }) => {
     const { userId } = context;
-    const trimmed = data.display_name.trim();
 
     const { data: current } = await supabaseAdmin
       .from("user_profiles")
-      .select("display_name")
+      .select("display_name,bio,avatar_url")
       .eq("user_id", userId)
       .maybeSingle();
 
-    if (current?.display_name === trimmed) {
-      return { ok: true };
+    const patch: { display_name?: string; bio?: string | null; avatar_url?: string | null; updated_at?: string } = {};
+    const changed: string[] = [];
+    const before: Record<string, unknown> = {};
+    const after: Record<string, unknown> = {};
+
+    if (data.display_name !== undefined) {
+      const v = data.display_name.trim();
+      if (v !== (current?.display_name ?? "")) {
+        patch.display_name = v;
+        changed.push("display_name");
+        before.display_name = current?.display_name ?? null;
+        after.display_name = v;
+      }
     }
+    if (data.bio !== undefined) {
+      const v = data.bio === null ? null : data.bio.trim() || null;
+      if (v !== (current?.bio ?? null)) {
+        patch.bio = v;
+        changed.push("bio");
+        before.bio = current?.bio ?? null;
+        after.bio = v;
+      }
+    }
+    if (data.avatar_url !== undefined) {
+      const v = data.avatar_url ?? null;
+      if (v !== (current?.avatar_url ?? null)) {
+        patch.avatar_url = v;
+        changed.push("avatar_url");
+        before.avatar_url = current?.avatar_url ?? null;
+        after.avatar_url = v;
+      }
+    }
+
+    if (changed.length === 0) return { ok: true };
+
+    patch.updated_at = new Date().toISOString();
 
     const { error } = await supabaseAdmin
       .from("user_profiles")
-      .update({ display_name: trimmed, updated_at: new Date().toISOString() })
+      .update(patch)
       .eq("user_id", userId);
     if (error) throw new Error("update_failed");
 
@@ -69,9 +107,9 @@ export const updateMyProfile = createServerFn({ method: "POST" })
       actorUserId: userId,
       actionType: "user_profile_updated",
       entityId: userId,
-      changedFields: ["display_name"],
-      before: { display_name: current?.display_name ?? null },
-      after: { display_name: trimmed },
+      changedFields: changed,
+      before,
+      after,
     });
 
     return { ok: true };
