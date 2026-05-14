@@ -17,6 +17,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UUserIdRouteImport } from './routes/u.$userId'
 import { Route as OffresOfferIdRouteImport } from './routes/offres.$offerId'
 import { Route as AuthenticatedSecuriteRouteImport } from './routes/_authenticated.securite'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
@@ -87,6 +88,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UUserIdRoute = UUserIdRouteImport.update({
+  id: '/u/$userId',
+  path: '/u/$userId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OffresOfferIdRoute = OffresOfferIdRouteImport.update({
@@ -292,6 +298,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/securite': typeof AuthenticatedSecuriteRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
+  '/u/$userId': typeof UUserIdRoute
   '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
   '/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
   '/admin/litiges': typeof AuthenticatedAdminLitigesRouteWithChildren
@@ -332,6 +339,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/securite': typeof AuthenticatedSecuriteRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
+  '/u/$userId': typeof UUserIdRoute
   '/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
   '/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
   '/admin/offres': typeof AuthenticatedAdminOffresRouteWithChildren
@@ -373,6 +381,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/securite': typeof AuthenticatedSecuriteRoute
   '/offres/$offerId': typeof OffresOfferIdRoute
+  '/u/$userId': typeof UUserIdRoute
   '/_authenticated/admin/categories-services': typeof AuthenticatedAdminCategoriesServicesRoute
   '/_authenticated/admin/conversations': typeof AuthenticatedAdminConversationsRouteWithChildren
   '/_authenticated/admin/litiges': typeof AuthenticatedAdminLitigesRouteWithChildren
@@ -416,6 +425,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/securite'
     | '/offres/$offerId'
+    | '/u/$userId'
     | '/admin/categories-services'
     | '/admin/conversations'
     | '/admin/litiges'
@@ -456,6 +466,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/securite'
     | '/offres/$offerId'
+    | '/u/$userId'
     | '/admin/categories-services'
     | '/admin/conversations'
     | '/admin/offres'
@@ -496,6 +507,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/securite'
     | '/offres/$offerId'
+    | '/u/$userId'
     | '/_authenticated/admin/categories-services'
     | '/_authenticated/admin/conversations'
     | '/_authenticated/admin/litiges'
@@ -531,6 +543,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   OffresOfferIdRoute: typeof OffresOfferIdRoute
+  UUserIdRoute: typeof UUserIdRoute
   MarketplaceServiceServiceSlugRoute: typeof MarketplaceServiceServiceSlugRoute
 }
 
@@ -590,6 +603,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/u/$userId': {
+      id: '/u/$userId'
+      path: '/u/$userId'
+      fullPath: '/u/$userId'
+      preLoaderRoute: typeof UUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/offres/$offerId': {
@@ -1029,6 +1049,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   VerifyEmailRoute: VerifyEmailRoute,
   OffresOfferIdRoute: OffresOfferIdRoute,
+  UUserIdRoute: UUserIdRoute,
   MarketplaceServiceServiceSlugRoute: MarketplaceServiceServiceSlugRoute,
 }
 export const routeTree = rootRouteImport

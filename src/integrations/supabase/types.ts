@@ -509,6 +509,42 @@ export type Database = {
           },
         ]
       }
+      reviews: {
+        Row: {
+          co_subscription_id: string
+          comment: string | null
+          created_at: string
+          id: string
+          is_published: boolean
+          rating: number
+          reviewee_user_id: string
+          reviewer_user_id: string
+          updated_at: string
+        }
+        Insert: {
+          co_subscription_id: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          rating: number
+          reviewee_user_id: string
+          reviewer_user_id: string
+          updated_at?: string
+        }
+        Update: {
+          co_subscription_id?: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          rating?: number
+          reviewee_user_id?: string
+          reviewer_user_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       subscription_categories: {
         Row: {
           created_at: string
@@ -712,6 +748,8 @@ export type Database = {
       }
       user_profiles: {
         Row: {
+          avatar_url: string | null
+          bio: string | null
           created_at: string
           display_name: string
           preferred_language: string
@@ -719,6 +757,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string
           preferred_language?: string
@@ -726,6 +766,8 @@ export type Database = {
           user_id: string
         }
         Update: {
+          avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string
           preferred_language?: string
