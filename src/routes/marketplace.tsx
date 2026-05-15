@@ -4,6 +4,13 @@ import { listMarketplaceOffers } from "@/lib/offers.functions";
 import type { MarketplaceOfferLike } from "@/components/marketplace/OfferCard";
 import { ServiceCard, type ServiceAggregate } from "@/components/marketplace/ServiceCard";
 import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import {
   DISPLAY_CATEGORIES,
   MVP_NOTICE,
   NON_AFFILIATION_NOTICE,
@@ -126,16 +133,28 @@ function MarketplacePage() {
                   {section.services.length} service
                   {section.services.length > 1 ? "s" : ""} avec offres disponibles
                 </p>
-                <ul
-                  className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-                  role="list"
+                <Carousel
+                  opts={{ align: "start", dragFree: true }}
+                  className="mt-5 px-1"
+                  aria-label={`Services ${section.name}`}
                 >
-                  {section.services.map((s) => (
-                    <li key={s.slug}>
-                      <ServiceCard service={s} />
-                    </li>
-                  ))}
-                </ul>
+                  <CarouselContent className="-ml-4">
+                    {section.services.map((s) => (
+                      <CarouselItem
+                        key={s.slug}
+                        className="basis-[85%] sm:basis-1/2 lg:basis-1/3"
+                      >
+                        <ServiceCard service={s} />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  {section.services.length > 1 && (
+                    <>
+                      <CarouselPrevious className="hidden sm:flex -left-4 lg:-left-12" />
+                      <CarouselNext className="hidden sm:flex -right-4 lg:-right-12" />
+                    </>
+                  )}
+                </Carousel>
               </section>
             ))}
           </div>
