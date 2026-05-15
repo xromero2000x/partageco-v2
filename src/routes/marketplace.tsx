@@ -142,7 +142,7 @@ function MarketplacePage() {
                     {section.services.map((s) => (
                       <CarouselItem
                         key={s.slug}
-                        className="basis-[85%] sm:basis-1/2 lg:basis-1/3"
+                        className="basis-[55%] sm:basis-[38%] lg:basis-1/4"
                       >
                         <ServiceCard service={s} />
                       </CarouselItem>

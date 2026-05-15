@@ -32,7 +32,7 @@ export function ServiceCard({ service }: { service: ServiceAggregate }) {
       className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg"
       aria-label={`Voir les offres ${service.name}`}
     >
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
         {visual ? (
           <img
             src={visual}
@@ -49,25 +49,23 @@ export function ServiceCard({ service }: { service: ServiceAggregate }) {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
+      <div className="flex flex-1 flex-col gap-2 p-3">
         <div>
-          <h3 className="text-base font-semibold text-foreground">{service.name}</h3>
+          <h3 className="text-sm font-semibold text-foreground">{service.name}</h3>
           {service.categoryName && (
-            <p className="mt-0.5 text-xs text-muted-foreground">{service.categoryName}</p>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">{service.categoryName}</p>
           )}
         </div>
 
-        <ul className="space-y-1 text-sm text-muted-foreground">
+        <ul className="space-y-0.5 text-xs text-muted-foreground">
           <li>
-            {service.offersCount} offre{service.offersCount > 1 ? "s" : ""} disponible
-            {service.offersCount > 1 ? "s" : ""}
+            {service.offersCount} offre{service.offersCount > 1 ? "s" : ""}
           </li>
           <li>
-            {service.totalSlots} place{service.totalSlots > 1 ? "s" : ""} disponible
-            {service.totalSlots > 1 ? "s" : ""}
+            {service.totalSlots} place{service.totalSlots > 1 ? "s" : ""}
           </li>
           <li>
-            À partir de{" "}
+            Dès{" "}
             <span className="font-medium text-foreground">
               {formatAmount(service.minPrice, service.currency)}
             </span>
@@ -75,8 +73,8 @@ export function ServiceCard({ service }: { service: ServiceAggregate }) {
           </li>
         </ul>
 
-        <span className="mt-auto inline-flex w-fit items-center rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition group-hover:border-primary group-hover:text-primary">
-          Voir les offres →
+        <span className="mt-auto inline-flex w-fit items-center rounded-md border border-border bg-background px-2 py-1 text-[11px] font-medium text-foreground transition group-hover:border-primary group-hover:text-primary">
+          Voir →
         </span>
       </div>
     </Link>
